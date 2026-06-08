@@ -59,16 +59,21 @@ const Page = () => {
         });
       }
 
-      if (!response.ok) throw new Error("Failed to store source");
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        return err.message || err.error || "Failed to store source";
+      }
 
       const res = await fetch("/api/knowledge/fetch");
       const newData = await res.json();
       setKnowledgeSources(newData.sources);
       setIsAddOpen(false);
-    } catch (error) {
-      console.error(error);
+      return null;
+    } catch {
+      return "Failed to store source. Please try again.";
     } finally {
       setKnowledgeSourcesLoader(false);
+      setKnowledgeStoringLoader(false);
     }
   };
 

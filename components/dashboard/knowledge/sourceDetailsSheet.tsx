@@ -7,7 +7,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import React, { useState } from "react";
-import { getStatusBadge, getTypeIcon } from "./knowledgeTable";
+import { getExtractionBadge, getStatusBadge, getTypeIcon } from "./knowledgeTable";
 import { Button } from "@/components/ui/button";
 
 interface SourceDetailsSheetProps {
@@ -39,6 +39,7 @@ const SourceDetailsSheet = ({
             </SheetDescription>
             <div className="pt-2 flex gap-2">
               {getStatusBadge(selectedSource.status as SourceStatus)}
+              {getExtractionBadge(selectedSource)}
               <span className="text-xs text-zinc-500 py-1 flex items-center">
                 Updated{" "}
                 {selectedSource.last_updated &&
@@ -48,6 +49,24 @@ const SourceDetailsSheet = ({
           </SheetHeader>
 
           <div className="flex-1 overflow-y-auto p-6 space-y-6">
+            {selectedSource.extraction_status === "failed" && (
+              <div className="rounded-lg border border-red-500/20 bg-red-500/10 p-4 text-sm text-red-200">
+                <p className="font-medium text-red-300">This source is not available to the chatbot.</p>
+                <p className="mt-1 text-red-200/80">
+                  {selectedSource.extraction_error ||
+                    "The source could not be extracted and indexed."}
+                </p>
+                <p className="mt-2 text-red-200/70">
+                  Delete it and upload a text-based PDF, or paste the PDF text as a text source.
+                </p>
+              </div>
+            )}
+            {selectedSource.extraction_status === "ready" && (
+              <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-4 text-sm text-emerald-200">
+                This source is indexed and available to the chatbot.
+                {selectedSource.chunk_count ? ` Indexed chunks: ${selectedSource.chunk_count}.` : ""}
+              </div>
+            )}
             <div className="space-y-4">
               <h4 className="text-sm font-medium text-zinc-300 uppercase tracking-wide">
                 Content Preview

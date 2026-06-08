@@ -167,20 +167,19 @@ const TextChat = ({ token, primaryColor, welcomeMessage, sections }: TextChatPro
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            disabled={!activeSection}
-            placeholder={activeSection ? "Type a message..." : "Select a topic above..."}
-            className="min-h-12.5 max-h-30 pr-12 outline-none text-white bg-zinc-900/50 border-white/10 resize-none rounded-xl disabled:opacity-50 disabled:cursor-not-allowed placeholder:text-zinc-600 focus:ring-1 focus:ring-white/20"
+            placeholder={activeSection ? "Ask about this topic..." : "Ask a question..."}
+            className="min-h-12.5 max-h-30 pr-12 outline-none text-white bg-zinc-900/50 border-white/10 resize-none rounded-xl placeholder:text-zinc-600 focus:ring-1 focus:ring-white/20"
           />
           <Button
             size="icon"
             onClick={handleSend}
-            disabled={!activeSection || !input.trim()}
+            disabled={!input.trim()}
             className={cn(
               "absolute right-2 bottom-2 h-8 w-8 transition-colors shadow-sm",
-              !activeSection || !input.trim() ? "bg-zinc-800 text-zinc-500" : ""
+              !input.trim() ? "bg-zinc-800 text-zinc-500" : ""
             )}
             style={
-              activeSection && input.trim()
+              input.trim()
                 ? { backgroundColor: primaryColor, color: "white" }
                 : {}
             }

@@ -19,6 +19,7 @@ interface KnowledgeSource {
   name: string;
   type: string;
   status: string;
+  extraction_status?: string | null;
 }
 
 const INITIAL_FORM_DATA: SectionFormData = {
@@ -67,7 +68,12 @@ const Page = () => {
       try {
         const res = await fetch("/api/knowledge/fetch");
         const data = await res.json();
-        setKnowledgeSources(data.sources || []);
+        setKnowledgeSources(
+          (data.sources || []).filter(
+            (source: KnowledgeSource) =>
+              source.status === "active" && source.extraction_status === "ready"
+          )
+        );
       } catch (error) {
         console.error("Failed to fetch knowledge sources:", error);
       } finally {
@@ -185,7 +191,10 @@ const Page = () => {
       blockedTopics: section.blocked_topics || "",
       fallbackBehavior: "escalate",
     });
-    setSelectedSources(section.source_ids || []);
+    const readySourceIds = new Set(knowledgeSources.map((source) => source.id));
+    setSelectedSources(
+      (section.source_ids || []).filter((sourceId) => readySourceIds.has(sourceId))
+    );
     setIsSheetOpen(true);
   };
 

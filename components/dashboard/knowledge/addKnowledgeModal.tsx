@@ -19,7 +19,7 @@ interface AddKnowledgeModalProps {
   setIsOpen: (open: boolean) => void;
   defaultTab: string;
   setDefaultTab: (tab: string) => void;
-  onImport: (data: any) => Promise<void>;
+  onImport: (data: any) => Promise<string | null | void>;
   isLoading: boolean;
   existingSources: KnowledgeSource[];
 }
@@ -94,7 +94,11 @@ const AddKnowledgeModal = ({
       data.file = uploadedFile;
     }
 
-    await onImport(data);
+    const importError = await onImport(data);
+    if (importError) {
+      setError(importError);
+      return;
+    }
 
     setWebsiteUrl("");
     setDocsTitle("");

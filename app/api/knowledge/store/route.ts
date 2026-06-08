@@ -81,7 +81,10 @@ export async function POST(req: NextRequest) {
         }
         if (err instanceof PdfCorruptError) {
           return NextResponse.json(
-            { error: "Could not read this PDF. The file may be corrupted." },
+            {
+              error: "Could not read this PDF. The file may be corrupted or use an unsupported encoding.",
+              message: "Try exporting it as a text-based PDF, or paste the PDF text as a Text source.",
+            },
             { status: 400 }
           );
         }

@@ -11,6 +11,9 @@ interface KnowledgeSource {
     status: string;
     source_url: string | null;
     content: string | null;
+    extraction_status?: string | null;
+    extraction_error?: string | null;
+    chunk_count?: string | null;
     meta_data: string | null;
     last_updated: string | null;
     created_at: string | null;

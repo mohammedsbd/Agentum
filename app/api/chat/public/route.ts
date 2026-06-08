@@ -1,19 +1,60 @@
 import { NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 import { db } from "@/db/client";
-import { conversation } from "@/db/schema";
+import { conversation, knowledge_source } from "@/db/schema";
 import { messages as messagesTable } from "@/db/schema";
 import { chatCompletion, summarizeConversation } from "@/lib/openAI";
 import { retrieveContext } from "@/lib/rag/retrieve";
 import { formatChunkForPrompt } from "@/lib/rag/format";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+function json(data: unknown, init?: ResponseInit) {
+  return NextResponse.json(data, {
+    ...init,
+    headers: {
+      ...corsHeaders,
+      ...(init?.headers || {}),
+    },
+  });
+}
+
+async function resolveSourceIds(ownerEmail: string, requestedIds: unknown) {
+  const readySources = await db
+    .select({ id: knowledge_source.id })
+    .from(knowledge_source)
+    .where(
+      and(
+        eq(knowledge_source.user_email, ownerEmail),
+        eq(knowledge_source.status, "active"),
+        eq(knowledge_source.extraction_status, "ready")
+      )
+    );
+
+  const readySourceIds = readySources.map((source) => source.id);
+  if (!Array.isArray(requestedIds) || requestedIds.length === 0) {
+    return readySourceIds;
+  }
+
+  const readySet = new Set(readySourceIds);
+  const requestedReadyIds = requestedIds.filter(
+    (id): id is string => typeof id === "string" && readySet.has(id)
+  );
+
+  return requestedReadyIds.length > 0 ? requestedReadyIds : readySourceIds;
+}
 
 export async function POST(req: Request) {
   const authHeader = req.headers.get("Authorization");
   const token = authHeader?.split(" ")[1];
 
   if (!token) {
-    return NextResponse.json({ error: "Missing session token" }, { status: 401 });
+    return json({ error: "Missing session token" }, { status: 401 });
   }
 
   let sessionId: string;
@@ -32,10 +73,13 @@ export async function POST(req: Request) {
     }
   } catch (error) {
     console.error("Token Verification Failed:", error);
-    return NextResponse.json({ error: "Invalid or expired session token" }, { status: 401 });
+    return json({ error: "Invalid or expired session token" }, { status: 401 });
   }
 
   let { messages, knowledge_source_ids } = await req.json();
+  if (!Array.isArray(messages)) {
+    return json({ error: "Invalid messages payload" }, { status: 400 });
+  }
 
   const lastMessage = messages[messages.length - 1];
 
@@ -87,12 +131,13 @@ export async function POST(req: Request) {
   // Retrieve relevant context from knowledge base
   const query = lastMessage?.content || "";
   let contextBlock = "";
+  const sourceIds = await resolveSourceIds(ownerEmail, knowledge_source_ids);
 
-  if (knowledge_source_ids?.length > 0 && query) {
+  if (sourceIds.length > 0 && query) {
     try {
       const chunks = await retrieveContext({
         query,
-        sourceIds: knowledge_source_ids,
+        sourceIds,
         userEmail: ownerEmail,
         topK: 5,
       });
@@ -107,7 +152,12 @@ export async function POST(req: Request) {
   }
 
   // Summarize conversation history if it exceeds token limits
-  const summary = await summarizeConversation(messages);
+  let summary = "";
+  try {
+    summary = await summarizeConversation(messages);
+  } catch (error) {
+    console.error("Conversation summary error:", error);
+  }
 
   let finalMessages: { role: string; content: string }[];
   if (summary) {
@@ -149,10 +199,17 @@ export async function POST(req: Request) {
       console.error("Database Persistence Error (AI):", error);
     }
 
-    return NextResponse.json({ response: reply });
+    return json({ response: reply });
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
     console.error("Chat completion error:", error);
-    return NextResponse.json({ response: "An error occurred.", detail: msg }, { status: 500 });
+    return json({ response: "An error occurred.", detail: msg }, { status: 500 });
   }
+}
+
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: corsHeaders,
+  });
 }

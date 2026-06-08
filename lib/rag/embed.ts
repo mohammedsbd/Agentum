@@ -1,27 +1,61 @@
-import { HfInference } from "@huggingface/inference";
+const GEMINI_API_BASE = "https://generativelanguage.googleapis.com/v1beta";
+const EMBED_MODEL = process.env.GEMINI_EMBED_MODEL || "gemini-embedding-001";
+const EMBED_DIMENSIONS = 384;
 
-const hf = new HfInference(process.env.HF_TOKEN);
+type GeminiEmbedResponse = {
+  embedding?: {
+    values?: number[];
+  };
+  error?: {
+    message?: string;
+  };
+};
 
-const EMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2";
-const BATCH_SIZE = 64;
+function getGeminiApiKey() {
+  const apiKey = process.env.GEMINI_API_KEY?.trim();
+  if (!apiKey) throw new Error("GEMINI_API_KEY is required for embeddings.");
+  return apiKey;
+}
+
+async function embedOne(text: string): Promise<number[]> {
+  const res = await fetch(
+    `${GEMINI_API_BASE}/models/${EMBED_MODEL}:embedContent`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": getGeminiApiKey(),
+      },
+      body: JSON.stringify({
+        content: { parts: [{ text }] },
+        outputDimensionality: EMBED_DIMENSIONS,
+      }),
+    }
+  );
+
+  const data = (await res.json()) as GeminiEmbedResponse;
+  if (!res.ok) {
+    throw new Error(data.error?.message || `Gemini embedding failed: ${res.status}`);
+  }
+
+  const values = data.embedding?.values;
+  if (!values || values.length !== EMBED_DIMENSIONS) {
+    throw new Error(
+      `Gemini embedding returned ${values?.length ?? 0} dimensions, expected ${EMBED_DIMENSIONS}.`
+    );
+  }
+
+  return values;
+}
 
 export async function embedTexts(texts: string[]): Promise<number[][]> {
-  const out: number[][] = [];
-  for (let i = 0; i < texts.length; i += BATCH_SIZE) {
-    const batch = texts.slice(i, i + BATCH_SIZE);
-    const res = await hf.featureExtraction({
-      model: EMBED_MODEL,
-      inputs: batch,
-    });
-    out.push(...(res as number[][]));
+  const vectors: number[][] = [];
+  for (const text of texts) {
+    vectors.push(await embedOne(text));
   }
-  return out;
+  return vectors;
 }
 
 export async function embedQuery(query: string): Promise<number[]> {
-  const res = await hf.featureExtraction({
-    model: EMBED_MODEL,
-    inputs: query,
-  });
-  return res as number[];
+  return embedOne(query);
 }

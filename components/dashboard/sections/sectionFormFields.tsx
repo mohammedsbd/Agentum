@@ -15,6 +15,7 @@ interface KnowledgeSource {
   id: string;
   name: string;
   type: string;
+  extraction_status?: string | null;
 }
 
 interface SectionFormFieldsProps {
@@ -134,7 +135,7 @@ const SectionFormFields = ({
                 ))
               ) : (
                 <SelectItem value="none" disabled>
-                  No knowledge sources available
+                  No ready knowledge sources available
                 </SelectItem>
               )}
             </SelectContent>

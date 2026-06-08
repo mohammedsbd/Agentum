@@ -74,6 +74,46 @@ export const getStatusBadge = (status: SourceStatus) => {
   }
 };
 
+export const getExtractionBadge = (source: KnowledgeSource) => {
+  switch (source.extraction_status) {
+    case "ready":
+      return (
+        <Badge className="bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20 border-emerald-500/20 shadow-none">
+          Ready for chat
+        </Badge>
+      );
+    case "failed":
+      return (
+        <Badge
+          variant="destructive"
+          className="bg-red-500/10 text-red-500 hover:bg-red-500/20 border-red-500/20 shadow-none"
+        >
+          Failed
+        </Badge>
+      );
+    case "extracting":
+    case "embedding":
+    case "pending":
+      return (
+        <Badge
+          variant="secondary"
+          className="bg-amber-500/10 text-amber-500 hover:bg-amber-500/20 border-amber-500/20 shadow-none"
+        >
+          Processing
+        </Badge>
+      );
+    default:
+      return (
+        <Badge
+          variant="secondary"
+          className="bg-zinc-500/10 text-zinc-500 hover:bg-zinc-500/20 border-zinc-500/20 shadow-none"
+        >
+          Not indexed
+        </Badge>
+      );
+  }
+};
+
 const KnowledgeTable = ({
   sources,
   onSourceClick,
@@ -116,7 +156,7 @@ const KnowledgeTable = ({
                 Type
               </TableHead>
               <TableHead className="text-xs uppercase font-medium text-zinc-500">
-                Status
+                Indexing
               </TableHead>
               <TableHead className="text-xs uppercase font-medium text-zinc-500">
                 Last Updated
@@ -171,7 +211,19 @@ const KnowledgeTable = ({
                     {source.type}
                   </TableCell>
                   <TableCell className="capitalize text-zinc-400">
-                    {getStatusBadge(source.status as SourceStatus)}
+                    <div className="flex flex-col items-start gap-1">
+                      {getExtractionBadge(source)}
+                      {source.extraction_status === "ready" && (
+                        <span className="text-[11px] text-zinc-500 normal-case">
+                          {source.chunk_count || 0} chunks
+                        </span>
+                      )}
+                      {source.extraction_status === "failed" && (
+                        <span className="text-[11px] text-red-400/80 normal-case">
+                          Not used by chatbot
+                        </span>
+                      )}
+                    </div>
                   </TableCell>
                   <TableCell className="capitalize text-zinc-400">
                     {source.last_updated &&

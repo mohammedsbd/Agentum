@@ -4,9 +4,15 @@ import {
   PdfImageOnlyError,
   PdfTooLargeError,
 } from "./errors";
+import { execFile } from "node:child_process";
+import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+import { promisify } from "node:util";
 
 const MAX_PAGES = 30;
 const MIN_TOTAL_TEXT_CHARS = 100;
+const execFileAsync = promisify(execFile);
 
 export async function extractPdfText(
   buffer: Buffer
@@ -30,7 +36,7 @@ export async function extractPdfText(
     ) {
       throw new PdfEncryptedError();
     }
-    throw new PdfCorruptError(err);
+    return extractPdfTextWithPoppler(buffer, err);
   }
 
   try {
@@ -58,11 +64,63 @@ export async function extractPdfText(
       .replace(/\s/g, "").length;
 
     if (totalTextChars < MIN_TOTAL_TEXT_CHARS) {
-      throw new PdfImageOnlyError();
+      return extractPdfTextWithPoppler(buffer, new PdfImageOnlyError());
     }
 
     return { text, pageCount };
   } finally {
     await doc.destroy().catch(() => {});
+  }
+}
+
+async function extractPdfTextWithPoppler(
+  buffer: Buffer,
+  cause?: unknown
+): Promise<{ text: string; pageCount: number }> {
+  const dir = await mkdtemp(path.join(os.tmpdir(), "agentum-pdf-"));
+  const filePath = path.join(dir, "source.pdf");
+
+  try {
+    await writeFile(filePath, buffer);
+    const { stdout } = await execFileAsync(
+      "pdftotext",
+      ["-layout", filePath, "-"],
+      {
+        maxBuffer: 20 * 1024 * 1024,
+        timeout: 60_000,
+      }
+    );
+
+    const rawPages = stdout.split("\f");
+    const pageTexts = rawPages
+      .map((page) => page.replace(/\s+/g, " ").trim())
+      .filter(Boolean);
+    const pageCount = Math.max(pageTexts.length, 1);
+
+    if (pageCount > MAX_PAGES) {
+      throw new PdfTooLargeError(pageCount);
+    }
+
+    const totalTextChars = pageTexts.join("")
+      .replace(/\s/g, "")
+      .length;
+
+    if (totalTextChars < MIN_TOTAL_TEXT_CHARS) {
+      throw new PdfImageOnlyError();
+    }
+
+    const text = pageTexts
+      .map((pageText, index) => `--- Page ${index + 1} ---\n\n${pageText}`)
+      .join("\n\n")
+      .trim();
+
+    return { text, pageCount };
+  } catch (err) {
+    if (err instanceof PdfTooLargeError || err instanceof PdfImageOnlyError) {
+      throw err;
+    }
+    throw new PdfCorruptError(cause instanceof Error ? cause : err);
+  } finally {
+    await rm(dir, { recursive: true, force: true }).catch(() => {});
   }
 }
