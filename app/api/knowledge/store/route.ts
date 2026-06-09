@@ -1,6 +1,11 @@
 import { isAuthorized } from "@/lib/isAuthorized";
 import { ingestSource } from "@/lib/rag/ingest";
 import {
+  FirecrawlScrapeError,
+  WebsiteUrlError,
+  ingestWebsiteSource,
+} from "@/lib/rag/website";
+import {
   PdfCorruptError,
   PdfEncryptedError,
   PdfImageOnlyError,
@@ -102,39 +107,42 @@ export async function POST(req: NextRequest) {
     const type = body.type as string;
 
     if (type === "website") {
-      const res = await fetch("https://api.firecrawl.dev/v2/scrape", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${process.env.FIRECRAWL_API_KEY!}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ url: body.url, formats: ["markdown"] }),
-      });
-
-      const json = (await res.json().catch(() => null)) as
-        | { success: true; data: { markdown: string } }
-        | { success: false; error?: string }
-        | null;
-
-      if (!res.ok || !json || json.success !== true) {
-        return NextResponse.json(
-          {
-            error: "Firecrawl request failed",
-            status: res.status,
-            message: (json && !json.success && json.error) || "Unknown Firecrawl error",
-          },
-          { status: 502 }
-        );
+      if (!body.url) {
+        return NextResponse.json({ error: "url is required" }, { status: 400 });
       }
 
-      await ingestSource({
-        type: "website",
-        userEmail: user.email,
-        url: body.url,
-        markdown: json.data.markdown,
-      });
+      try {
+        const result = await ingestWebsiteSource(user.email, body.url);
 
-      return NextResponse.json({ message: "Website added successfully" }, { status: 200 });
+        return NextResponse.json(
+          {
+            message: result.created
+              ? "Website added successfully"
+              : "Website is already in your knowledge base",
+          },
+          { status: 200 }
+        );
+      } catch (err) {
+        if (err instanceof FirecrawlScrapeError) {
+          return NextResponse.json(
+            {
+              error: "Firecrawl request failed",
+              status: err.status,
+              message: err.message,
+            },
+            { status: 502 }
+          );
+        }
+
+        if (err instanceof WebsiteUrlError) {
+          return NextResponse.json(
+            { error: err.message },
+            { status: 400 }
+          );
+        }
+
+        throw err;
+      }
     }
 
     if (type === "text") {

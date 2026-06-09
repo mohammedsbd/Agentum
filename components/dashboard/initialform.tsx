@@ -59,6 +59,7 @@ const InitialForm = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [formData, setFormData] = useState<InitialData>({
     businessName: "",
     websiteUrl: "",
@@ -81,6 +82,7 @@ const InitialForm = () => {
 
   const handleNext = async () => {
     if (isSubmitting) return;
+    setSubmitError(null);
 
     const currentField = STEPS[currentStep].field;
     const value = formData[currentField];
@@ -125,22 +127,38 @@ const InitialForm = () => {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
+    setSubmitError(null);
 
-    const response = await fetch("/api/metadata/store", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        business_name: formData.businessName,
-        website_url: formData.websiteUrl,
-        external_links: formData.externalLinks,
-      }),
-    });
+    try {
+      const response = await fetch("/api/metadata/store", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          business_name: formData.businessName,
+          website_url: formData.websiteUrl,
+          external_links: formData.externalLinks,
+        }),
+      });
 
-    await response.json();
-    setIsSubmitting(false);
-    window.location.reload();
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok) {
+        setSubmitError(
+          data?.message ||
+            data?.error ||
+            "Could not complete setup. Please try again."
+        );
+        setIsSubmitting(false);
+        return;
+      }
+
+      window.location.reload();
+    } catch {
+      setSubmitError("Could not complete setup. Please try again.");
+      setIsSubmitting(false);
+    }
   };
 
   const isStepValid =
@@ -247,6 +265,12 @@ const InitialForm = () => {
                 <Icon className="w-6 h-6" />
               </div>
             </div>
+
+            {submitError && (
+              <p className="rounded-md border border-red-500/20 bg-red-500/10 px-3 py-2 text-sm text-red-300">
+                {submitError}
+              </p>
+            )}
 
             <div className="flex items-center justify-between pt-8">
               <div className="hidden sm:flex items-center gap-2 text-xs text-zinc-600">
