@@ -189,7 +189,7 @@ const TextChat = ({ token, primaryColor, welcomeMessage, sections }: TextChatPro
         </div>
         <div className="mt-2 text-center">
           <Link href={"/"} className="text-[10px] text-zinc-600 font-medium hover:text-zinc-500 transition-colors">
-            Powered by OneMinute Support
+            Powered by Agentum
           </Link>
         </div>
       </div>

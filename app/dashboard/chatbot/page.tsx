@@ -182,20 +182,20 @@ const ChatbotPage = () => {
   }
 
   return (
-    <div className="p-6 md:p-8 space-y-8 max-w-400 mx-auto animate-in fade-in duration-500 h-[calc(100vh-64px)] overflow-hidden flex flex-col">
+    <div className="p-6 md:p-8 space-y-8 max-w-[1600px] mx-auto animate-in fade-in duration-500 h-[calc(100vh-64px)] overflow-hidden flex flex-col">
       <div className="flex justify-between items-center shrink-0">
         <div>
-          <h1 className="text-2xl font-semibold text-white tracking-tight">
+          <h1 className="text-3xl font-bold text-foreground tracking-tight">
             Chatbot Playground
           </h1>
-          <p className="text-sm text-zinc-400 mt-1">
+          <p className="text-sm text-muted-foreground mt-1 font-medium">
             Test your assistant, customize appearance, and deploy it.
           </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full min-h-0">
-        <div className="lg:col-span-7 flex flex-col h-full min-h-0 space-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 h-full min-h-0">
+        <div className="lg:col-span-7 flex flex-col h-full min-h-0">
           <ChatSimulator
             messages={messages}
             primaryColor={primaryColor}
@@ -213,8 +213,8 @@ const ChatbotPage = () => {
         </div>
 
         <div className="lg:col-span-5 h-full min-h-0 overflow-hidden flex flex-col">
-          <ScrollArea className="h-full pr-4">
-            <div className="space-y-6 pb-8">
+          <ScrollArea className="h-full">
+            <div className="space-y-6 pb-12 pr-4">
               <ApperanceConfig
                 primaryColor={primaryColor}
                 setPrimaryColor={setPrimaryColor}

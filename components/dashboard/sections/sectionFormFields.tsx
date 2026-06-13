@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 import React from "react";
 
 interface KnowledgeSource {
@@ -63,15 +64,15 @@ const SectionFormFields = ({
 }: SectionFormFieldsProps) => {
   return (
     <>
-      <div className="space-y-4">
-        <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
+      <div className="space-y-6">
+        <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-widest border-b pb-2">
           Basics
         </h4>
         <div className="space-y-2">
-          <Label className="text-zinc-300">Section Name</Label>
+          <Label className="text-foreground font-bold text-xs uppercase tracking-wider">Section Name</Label>
           <Input
             placeholder="e.g. Billing Policy"
-            className="bg-white/2 border-white/10 text-white placeholder:text-zinc-600"
+            className="bg-muted/20 border-border text-foreground font-medium"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             disabled={isDisabled}
@@ -79,27 +80,27 @@ const SectionFormFields = ({
         </div>
 
         <div className="space-y-2">
-          <Label className="text-zinc-300">Description</Label>
+          <Label className="text-foreground font-bold text-xs uppercase tracking-wider">Description</Label>
           <Input
             placeholder="When should the AI use this?"
-            className="bg-white/2 border-white/10 text-white placeholder:text-zinc-600"
+            className="bg-muted/20 border-border text-foreground font-medium"
             value={formData.description}
             onChange={(e) =>
               setFormData({ ...formData, description: e.target.value })
             }
             disabled={isDisabled}
           />
-          <p className="text-[11px] text-zinc-500">
+          <p className="text-[11px] text-muted-foreground font-medium">
             Used by the routing model to decide when to activate this section.
           </p>
         </div>
 
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
+        <div className="space-y-4 pt-4">
+          <div className="flex items-center justify-between border-b pb-2">
+            <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
               Data Sources
             </h4>
-            <span className="text-xs text-zinc-500">
+            <span className="text-[10px] text-muted-foreground font-bold bg-muted px-2 py-0.5 rounded-full">
               {selectedSources.length} attached
             </span>
           </div>
@@ -112,7 +113,7 @@ const SectionFormFields = ({
             }}
             disabled={isDisabled}
           >
-            <SelectTrigger className="bg-white/2 border-white/10 text-white">
+            <SelectTrigger className="bg-muted/20 border-border text-foreground font-medium">
               <SelectValue
                 placeholder={
                   isLoadingSources
@@ -121,15 +122,15 @@ const SectionFormFields = ({
                 }
               />
             </SelectTrigger>
-            <SelectContent className="bg-[#0A0A0E] border-white/10 text-zinc-300">
+            <SelectContent className="bg-card border-border text-foreground shadow-2xl">
               {knowledgeSources.length > 0 ? (
                 knowledgeSources?.map((source) => (
-                  <SelectItem key={source.id} value={source.id}>
+                  <SelectItem key={source.id} value={source.id} className="focus:bg-primary/5 cursor-pointer">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs text-zinc-500 capitalize">
+                      <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-tighter">
                         [{source.type}]
                       </span>
-                      <span>{source.name}</span>
+                      <span className="font-medium">{source.name}</span>
                     </div>
                   </SelectItem>
                 ))
@@ -149,29 +150,29 @@ const SectionFormFields = ({
                 return (
                   <div
                     key={sourceId}
-                    className="flex items-center justify-between p-2 rounded-md bg-white/5 border border-white/10"
+                    className="flex items-center justify-between p-3 rounded-xl bg-muted/30 border border-border shadow-sm group hover:bg-muted/50 transition-all"
                   >
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-zinc-500 capitalize">
-                        [{source.type}]
+                    <div className="flex items-center gap-3">
+                      <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-tighter bg-muted px-1.5 py-0.5 rounded border border-border">
+                        {source.type}
                       </span>
-                      <span className="text-sm text-zinc-300">
+                      <span className="text-sm text-foreground font-bold">
                         {source.name}
                       </span>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-6 w-6 p-0 text-zinc-500 hover:text-red-400"
-                        onClick={() =>
-                          setSelectedSources(
-                            selectedSources.filter((id) => id !== sourceId)
-                          )
-                        }
-                        disabled={isDisabled}
-                      >
-                        ×
-                      </Button>
                     </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-7 w-7 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-full transition-colors"
+                      onClick={() =>
+                        setSelectedSources(
+                          selectedSources.filter((id) => id !== sourceId)
+                        )
+                      }
+                      disabled={isDisabled}
+                    >
+                      <span className="text-xl leading-none">×</span>
+                    </Button>
                   </div>
                 );
               })}
@@ -179,8 +180,8 @@ const SectionFormFields = ({
           )}
         </div>
 
-        <div className="space-y-4">
-          <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
+        <div className="space-y-4 pt-4">
+          <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-widest border-b pb-2">
             Tone
           </h4>
 
@@ -189,31 +190,36 @@ const SectionFormFields = ({
             onValueChange={(value) =>
               setFormData({ ...formData, tone: value as Tone })
             }
-            className="grid grid-cols-1 gap-2"
+            className="grid grid-cols-1 sm:grid-cols-2 gap-3"
             disabled={isDisabled}
           >
             {TONE_OPTIONS.map((option) => (
               <div
                 key={option.value}
-                className="flex items-center space-x-2 rounded-md border border-white/5 bg-white/1 p-3 hover:bg-white/5 transition-colors"
+                className={cn(
+                  "flex items-center space-x-3 rounded-xl border p-4 hover:bg-muted transition-all duration-200 cursor-pointer",
+                  formData.tone === option.value 
+                    ? "border-primary bg-primary/5 shadow-sm" 
+                    : "border-border bg-card shadow-xs"
+                )}
               >
                 <RadioGroupItem
                   value={option.value}
                   id={option.value}
-                  className="border-white/20 text-indigo-500"
+                  className="border-primary text-primary"
                 />
                 <Label htmlFor={option.value} className="flex-1 cursor-pointer">
                   <div className="flex items-center gap-2">
-                    <span className="text-zinc-200 font-medium">
+                    <span className="text-foreground font-bold text-sm">
                       {option.label}
                     </span>
                     {option.badge && (
-                      <span className="text-[10px] bg-red-500/10 text-red-500 px-1.5 rounded-sm border border-red-500/10">
+                      <span className="text-[10px] bg-primary/10 text-primary px-1.5 rounded-sm border border-primary/10 font-bold uppercase tracking-tighter">
                         {option.badge}
                       </span>
                     )}
                   </div>
-                  <span className="text-xs text-zinc-500 font-normal">
+                  <span className="text-[11px] text-muted-foreground font-medium leading-tight block mt-0.5">
                     {option.description}
                   </span>
                 </Label>
@@ -222,15 +228,15 @@ const SectionFormFields = ({
           </RadioGroup>
         </div>
 
-        <div className="space-y-4">
-          <h4 className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
+        <div className="space-y-4 pt-4">
+          <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-widest border-b pb-2">
             Scope Rules
           </h4>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label className="text-zinc-300 text-xs">Allowed Topics</Label>
+              <Label className="text-foreground font-bold text-xs uppercase tracking-wider">Allowed Topics</Label>
               <Input
-                className="bg-white/2 border-white/10 text-white placeholder:text-zinc-600 text-xs h-9"
+                className="bg-muted/20 border-border text-foreground font-medium text-xs h-10"
                 placeholder="e.g. pricing, refunds"
                 value={formData.allowedTopics}
                 onChange={(e) =>
@@ -241,9 +247,9 @@ const SectionFormFields = ({
             </div>
 
             <div className="space-y-2">
-              <Label className="text-zinc-300 text-xs">Blocked Topics</Label>
+              <Label className="text-foreground font-bold text-xs uppercase tracking-wider">Blocked Topics</Label>
               <Input
-                className="bg-white/2 border-white/10 text-white placeholder:text-zinc-600 text-xs h-9"
+                className="bg-muted/20 border-border text-foreground font-medium text-xs h-10"
                 placeholder="e.g. competitors"
                 value={formData.blockedTopics}
                 onChange={(e) =>

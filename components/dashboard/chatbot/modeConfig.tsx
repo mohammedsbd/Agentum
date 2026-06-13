@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Mic } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export type ChatbotMode = "text" | "voice" | "both";
 
@@ -17,11 +18,11 @@ const OPTIONS: { value: ChatbotMode; label: string; hint: string }[] = [
 
 const ModeConfig = ({ mode, setMode }: ModeConfigProps) => {
   return (
-    <Card className="border-white/5 bg-[#0a0a0e]">
+    <Card className="border-border bg-card shadow-sm">
       <CardHeader className="pb-3">
         <div className="flex items-center gap-2">
-          <Mic className="w-4 h-4 text-zinc-500" />
-          <CardTitle className="text-sm font-medium text-white uppercase tracking-wider">
+          <Mic className="w-4 h-4 text-muted-foreground" />
+          <CardTitle className="text-xs font-bold text-foreground uppercase tracking-widest">
             Conversation Mode
           </CardTitle>
         </div>
@@ -30,7 +31,12 @@ const ModeConfig = ({ mode, setMode }: ModeConfigProps) => {
         {OPTIONS.map((opt) => (
           <label
             key={opt.value}
-            className="flex items-start gap-3 cursor-pointer p-3 rounded-md border border-white/5 hover:bg-white/4"
+            className={cn(
+              "flex items-start gap-3 cursor-pointer p-4 rounded-xl border transition-all duration-200",
+              mode === opt.value
+                ? "border-primary bg-primary/5 shadow-sm"
+                : "border-border hover:border-border hover:bg-muted"
+            )}
           >
             <input
               type="radio"
@@ -38,11 +44,15 @@ const ModeConfig = ({ mode, setMode }: ModeConfigProps) => {
               value={opt.value}
               checked={mode === opt.value}
               onChange={() => setMode(opt.value)}
-              className="mt-0.5"
+              className="mt-1 accent-primary"
             />
             <div>
-              <Label className="text-zinc-200 text-sm">{opt.label}</Label>
-              <p className="text-xs text-zinc-500 mt-0.5">{opt.hint}</p>
+              <Label className="text-foreground text-sm font-bold cursor-pointer">
+                {opt.label}
+              </Label>
+              <p className="text-xs text-muted-foreground mt-1 font-medium">
+                {opt.hint}
+              </p>
             </div>
           </label>
         ))}

@@ -5,7 +5,7 @@ const Page = () => {
   return (
     <div>
       <Script
-        src="https://oneminute-support.vercel.app/widget.js"
+        src="https://agentum.ai/widget.js"
         data-id="a6afa329-a3c5-4104-b71b-e23717929846"
         defer
       ></Script>

@@ -33,11 +33,11 @@ const ApperanceConfig = ({
   hasChanges,
 }: AppearanceConfigProps) => {
   return (
-    <Card className="border-white/5 bg-[#0a0a0e]">
+    <Card className="border-muted bg-card shadow-sm">
       <CardHeader className="pb-3">
         <div className="flex items-center gap-2">
-          <Palette className="w-4 h-4 text-zinc-500" />
-          <CardTitle className="text-sm font-medium text-white uppercase tracking-wider">
+          <Palette className="w-4 h-4 text-muted-foreground" />
+          <CardTitle className="text-sm font-bold text-foreground uppercase tracking-wider">
             Appearance
           </CardTitle>
         </div>
@@ -45,7 +45,7 @@ const ApperanceConfig = ({
 
       <CardContent className="space-y-5">
         <div className="space-y-3">
-          <Label className="text-zinc-300">Primary Color</Label>
+          <Label className="text-sm font-bold text-foreground">Primary Color</Label>
           <div className="flex gap-3">
             {PRESET_COLORS.map((color) => (
               <button
@@ -54,7 +54,7 @@ const ApperanceConfig = ({
                 className={cn(
                   "w-6 h-6 rounded-full border-2 transition-all",
                   primaryColor === color.value
-                    ? "ring-2 ring-white ring-offset-2 ring-offset-[#0A0A0E] scale-110"
+                    ? "ring-2 ring-primary ring-offset-2 ring-offset-background scale-110"
                     : "opacity-60 hover:opacity-100"
                 )}
                 style={{
@@ -64,7 +64,7 @@ const ApperanceConfig = ({
                 title={color.name}
               />
             ))}
-            <div className="relative w-6 h-6 rounded-full overflow-hidden border-2 border-white/70 ml-2">
+            <div className="relative w-6 h-6 rounded-full overflow-hidden border-2 border-muted ml-2">
               <input
                 type="color"
                 value={primaryColor}
@@ -76,19 +76,19 @@ const ApperanceConfig = ({
         </div>
 
         <div className="space-y-3">
-          <Label className="text-zinc-300">Welcome Message</Label>
+          <Label className="text-sm font-bold text-foreground">Welcome Message</Label>
           <Textarea
             value={welcomeMessage}
             onChange={(e) => setWelcomeMessage(e.target.value)}
             placeholder="Hi! How can I help you?"
-            className="bg-white/2 border-white/10 text-white resize-none text-sm min-h-20"
+            className="bg-muted/30 border-muted text-foreground resize-none text-sm min-h-20"
           />
         </div>
         {hasChanges && (
           <Button
             onClick={handleSave}
             disabled={isSaving}
-            className="w-full bg-white text-black hover:bg-zinc-200 animate-in fade-in slide-in-from-bottom-2 duration-300"
+            className="w-full font-bold animate-in fade-in slide-in-from-bottom-2 duration-300"
           >
             {isSaving ? (
               "Saving..."

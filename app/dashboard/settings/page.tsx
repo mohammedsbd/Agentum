@@ -46,49 +46,49 @@ const SettingPage = () => {
   return (
     <div className="p-6 md:p-8 space-y-8 max-w-5xl mx-auto animate-in fade-in duration-500">
       <div>
-        <h1 className="text-2xl font-semibold text-white tracking-tight">
+        <h1 className="text-3xl font-bold text-foreground tracking-tight">
           Settings
         </h1>
-        <p className="text-sm text-zinc-400 mt-1">
+        <p className="text-sm text-muted-foreground mt-1 font-medium">
           Manage workspace preferences, security, and billing.
         </p>
       </div>
 
-      <Card className="border-white/5 bg-[#0A0A0E]">
+      <Card className="border-border bg-card shadow-sm">
         <CardHeader>
-          <CardTitle className="text-base font-medium text-white">
+          <CardTitle className="text-lg font-bold text-foreground">
             Workspace Settings
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-sm font-medium">
             General settings for your organization. (Read Only)
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-2">
-              <Label className="text-zinc-500">Workspace Name</Label>
-              <div className="p-3 rounded-md bg-white/5 border border-white/5 text-zinc-300 text-sm">
+              <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Workspace Name</Label>
+              <div className="p-4 rounded-xl bg-muted/20 border border-border text-foreground text-sm font-bold shadow-inner">
                 {organizationData?.business_name}
               </div>
             </div>
             <div className="space-y-2">
-              <Label className="text-zinc-500">Primary Website</Label>
-              <div className="p-3 rounded-md bg-white/5 border border-white/5 text-zinc-300 text-sm">
+              <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Primary Website</Label>
+              <div className="p-4 rounded-xl bg-muted/20 border border-border text-foreground text-sm font-bold shadow-inner">
                 {organizationData?.website_url}
               </div>
             </div>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="space-y-2 text-white">
-              <Label className="text-zinc-500">Default Language</Label>
-              <div className="p-3 rounded-md bg-white/5 border border-white/5 text-zinc-300 text-sm">
+          <div className="grid gap-6 md:grid-cols-2">
+            <div className="space-y-2">
+              <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Default Language</Label>
+              <div className="p-4 rounded-xl bg-muted/20 border border-border text-foreground text-sm font-bold shadow-inner">
                 English
               </div>
             </div>
-            <div className="space-y-2 text-white">
-              <Label className="text-zinc-500">Timezone</Label>
-              <div className="p-3 rounded-md bg-white/5 border border-white/5 text-zinc-300 text-sm">
+            <div className="space-y-2">
+              <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Timezone</Label>
+              <div className="p-4 rounded-xl bg-muted/20 border border-border text-foreground text-sm font-bold shadow-inner">
                 UTC (GMT+0)
               </div>
             </div>
@@ -98,22 +98,22 @@ const SettingPage = () => {
 
       <TeamSection />
 
-      <Card className="border-red-500/10 bg-red-500/2">
+      <Card className="border-destructive/10 bg-destructive/5 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-base font-medium text-red-500">
+          <CardTitle className="text-lg font-bold text-destructive">
             Danger Zone
           </CardTitle>
-          <CardDescription className="text-red-500/60">
+          <CardDescription className="text-destructive/70 font-medium">
             Irreversible actions for this workspace.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <p className="text-sm font-medium text-zinc-300">
+            <div className="space-y-1">
+              <p className="text-sm font-bold text-foreground">
                 Delete Workspace
               </p>
-              <p className="text-xs text-zinc-500">
+              <p className="text-xs text-muted-foreground font-medium">
                 Permanently delete all knowledge, conversations, and settings.
               </p>
             </div>
@@ -121,30 +121,30 @@ const SettingPage = () => {
               <AlertDialogTrigger asChild>
                 <Button
                   variant="destructive"
-                  className="bg-red-500/10 text-red-500 hover:bg-red-500/20 border border-red-500/20 shadow-none"
+                  className="font-bold px-6"
                 >
                   <Trash2 className="w-4 h-4 mr-2" />
                   Delete
                 </Button>
               </AlertDialogTrigger>
-              <AlertDialogContent className="bg-[#0E0E12] border-white/10">
+              <AlertDialogContent className="bg-card border-border text-foreground shadow-2xl">
                 <AlertDialogHeader>
-                  <AlertDialogTitle className="text-white">
+                  <AlertDialogTitle className="text-xl font-bold">
                     Are you absolutely sure?
                   </AlertDialogTitle>
-                  <AlertDialogDescription className="text-zinc-400">
+                  <AlertDialogDescription className="text-muted-foreground font-medium">
                     This action cannot be undone. This will permanently delete
                     your workspace and remove all associated data from our
                     servers.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel className="bg-transparent border-white/10 text-zinc-300 hover:bg-white/5 hover:text-white">
+                <AlertDialogFooter className="gap-2 sm:gap-0">
+                  <AlertDialogCancel className="font-bold border-border">
                     Cancel
                   </AlertDialogCancel>
                   <form action="/api/organization/delete" method="POST" style={{ display: "contents" }}>
                     <AlertDialogAction
-                      className="bg-red-500 text-white hover:bg-red-600 border-none"
+                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90 font-bold border-none"
                       type="submit"
                     >
                       Delete Workspace

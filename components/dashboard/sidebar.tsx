@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { ModeToggle } from "@/components/mode-toggle";
 
 const SIDEBAR_ITEMS = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -45,17 +46,27 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <aside className="w-64 border-r border-white/5 bg-[#050509] flex-col h-screen fixed left-0 top-0 z-40 hidden md:flex">
-      <div className="h-16 flex items-center px-6 border-b border-white/5">
-        <Link href={"/"} className="flex items-center gap-2">
-          {/* Logo Mark */}
-          <div className="w-5 h-5 bg-white rounded-sm flex items-center justify-center">
-            <div className="w-2.5 h-2.5 bg-black rounded-[1px]"></div>
+    <aside className="w-64 border-r bg-card flex-col h-screen fixed left-0 top-0 z-40 hidden md:flex">
+      <div className="h-16 flex items-center justify-between px-6 border-b">
+        <Link href={"/"} className="flex items-center gap-2 group">
+          <div className="w-7 h-7 bg-primary rounded-lg flex items-center justify-center transition-transform group-hover:scale-110">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="w-4 h-4 text-primary-foreground"
+            >
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
           </div>
-          <span className="text-sm font-medium tracking-tight text-white/90">
-            OneMinute Support
+          <span className="text-lg font-bold tracking-tight">
+            Agentum
           </span>
         </Link>
+        <ModeToggle />
       </div>
 
       <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
@@ -66,10 +77,10 @@ const Sidebar = () => {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200",
                 isActive
-                  ? "bg-white/5 text-white"
-                  : "text-zinc-400 hover:text-white hover:bg-white/5"
+                  ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
               )}
             >
               <item.icon className="w-4 h-4" />
@@ -80,25 +91,25 @@ const Sidebar = () => {
       </nav>
 
       {/* Profile / Bottom Area */}
-      <div className="p-4 border-t border-white/5">
-        <div className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/5 cursor-pointer transition-colors group">
-          <div className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center border border-white/10">
-            <span className="text-xs text-zinc-400 group-hover:text-white">
+      <div className="p-4 border-t">
+        <div className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-muted cursor-pointer transition-colors group border bg-muted/30">
+          <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-inner">
+            <span className="text-xs font-bold text-primary-foreground">
               {metadata?.business_name?.slice(0, 2).toUpperCase() || ".."}
             </span>
           </div>
 
           <div className="flex flex-col overflow-hidden">
-            <span className="text-sm font-medium text-zinc-300 truncate group-hover:text-white">
+            <span className="text-sm font-bold truncate">
               {isLoading
                 ? "Loading..."
-                : `${metadata?.business_name}'s Workspace`}
+                : metadata?.business_name}
             </span>
-            <span className="text-xs text-zinc-500 truncate">{email}</span>
+            <span className="text-xs text-muted-foreground truncate">{email}</span>
           </div>
           <a
             href="/api/auth/logout"
-            className="ml-auto p-1.5 rounded-md text-zinc-500 hover:text-red-400 hover:bg-white/5 transition-colors"
+            className="ml-auto p-2 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
             title="Logout"
           >
             <LogOut className="w-4 h-4" />

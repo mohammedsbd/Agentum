@@ -115,10 +115,10 @@ const AddKnowledgeModal = ({
         if (!open) setError(null);
       }}
     >
-      <DialogContent className="sm:max-w-150 bg-[#0E0E12] border-white/10 text-zinc-100 p-0 overflow-hidden gap-0">
+      <DialogContent className="sm:max-w-xl bg-card border-border text-foreground p-0 overflow-hidden gap-0 shadow-2xl">
         <DialogHeader className="p-6 pb-2">
-          <DialogTitle>Add New Source</DialogTitle>
-          <DialogDescription className="text-zinc-500">
+          <DialogTitle className="text-xl font-bold">Add New Source</DialogTitle>
+          <DialogDescription className="text-muted-foreground font-medium">
             Choose a content type to train your assistant.
           </DialogDescription>
         </DialogHeader>
@@ -131,37 +131,37 @@ const AddKnowledgeModal = ({
           }}
           className="w-full"
         >
-          <div className="px-6 border-b border-white/5">
-            <TabsList className="bg-transparent h-auto p-0 gap-6">
+          <div className="px-6 border-b border-border">
+            <TabsList className="bg-transparent h-auto p-0 gap-8">
               <TabsTrigger
                 value="website"
-                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-indigo-500 rounded-none px-0 py-3 text-xs uppercase tracking-wider text-zinc-500 data-[state=active]:text-white transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus:outline-none ring-0 outline-none border-t-0 border-x-0"
+                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-0 py-4 text-xs font-bold uppercase tracking-wider text-muted-foreground data-[state=active]:text-primary transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus:outline-none ring-0 outline-none border-t-0 border-x-0"
               >
                 Website
               </TabsTrigger>
               <TabsTrigger
                 value="text"
-                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-indigo-500 rounded-none px-0 py-3 text-xs uppercase tracking-wider text-zinc-500 data-[state=active]:text-white transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus:outline-none ring-0 outline-none border-t-0 border-x-0"
+                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-0 py-4 text-xs font-bold uppercase tracking-wider text-muted-foreground data-[state=active]:text-primary transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus:outline-none ring-0 outline-none border-t-0 border-x-0"
               >
                 Q&A / Text
               </TabsTrigger>
               <TabsTrigger
                 value="upload"
-                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-indigo-500 rounded-none px-0 py-3 text-xs uppercase tracking-wider text-zinc-500 data-[state=active]:text-white transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus:outline-none ring-0 outline-none border-t-0 border-x-0"
+                className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none px-0 py-4 text-xs font-bold uppercase tracking-wider text-muted-foreground data-[state=active]:text-primary transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none focus:outline-none ring-0 outline-none border-t-0 border-x-0"
               >
                 File Upload
               </TabsTrigger>
             </TabsList>
           </div>
 
-          <div className="p-6 min-h-50 space-y-4">
+          <div className="p-6 min-h-60 space-y-4">
             {error && (
               <Alert
                 variant="destructive"
-                className="bg-red-500/10 border-red-500/20 text-red-400 py-2"
+                className="bg-destructive/10 border-destructive/20 text-destructive py-3"
               >
                 <AlertCircle className="h-4 w-4" />
-                <AlertDescription className="ml-2 text-xs">
+                <AlertDescription className="ml-2 text-xs font-bold">
                   {error}
                 </AlertDescription>
               </Alert>
@@ -171,11 +171,11 @@ const AddKnowledgeModal = ({
               value="website"
               className="mt-0 space-y-4 animate-in fade-in duration-300"
             >
-              <div className="p-4 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-200 text-sm flex gap-3">
+              <div className="p-4 rounded-xl bg-primary/5 border border-primary/10 text-primary text-sm flex gap-3">
                 <Globe className="w-5 h-5 shrink-0" />
                 <div>
-                  <p className="font-medium">Crawl Website</p>
-                  <p className="text-xs text-indigo-300/80 mt-1 leading-relaxed">
+                  <p className="font-bold">Crawl Website</p>
+                  <p className="text-xs text-primary/80 mt-1 leading-relaxed font-medium">
                     Enter a website URL to crawl significantly or add a specific
                     page link to provide focused context.
                   </p>
@@ -183,10 +183,10 @@ const AddKnowledgeModal = ({
               </div>
 
               <div className="space-y-3">
-                <Label>Website URL *</Label>
+                <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Website URL *</Label>
                 <Input
                   placeholder="https://example.com"
-                  className="bg-white/5 border-white/10 mt-1"
+                  className="bg-muted/20 border-border mt-1 font-medium"
                   value={websiteUrl}
                   onChange={(e) => {
                     setWebsiteUrl(e.target.value);
@@ -200,30 +200,30 @@ const AddKnowledgeModal = ({
               value="text"
               className="mt-0 space-y-4 animate-in fade-in duration-300"
             >
-              <div className="p-4 rounded-lg bg-purple-500/10 border border-purple-500/20 text-purple-200 text-sm flex gap-3">
+              <div className="p-4 rounded-xl bg-primary/5 border border-primary/10 text-primary text-sm flex gap-3">
                 <FileText className="w-5 h-5 shrink-0" />
                 <div>
-                  <p className="font-medium">Raw Text</p>
-                  <p className="text-xs text-purple-300/80 mt-1 leading-relaxed">
+                  <p className="font-bold">Raw Text</p>
+                  <p className="text-xs text-primary/80 mt-1 leading-relaxed font-medium">
                     Paste existing FAQs, policies, or internal notes directly.
                   </p>
                 </div>
               </div>
 
               <div className="space-y-3">
-                <Label>Title</Label>
+                <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Title</Label>
                 <Input
                   placeholder="e.g. Refund Policy"
-                  className="bg-white/5 border-white/10"
+                  className="bg-muted/20 border-border font-medium"
                   value={docsTitle}
                   onChange={(e) => setDocsTitle(e.target.value)}
                 />
               </div>
               <div className="space-y-3">
-                <Label>Content</Label>
+                <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Content</Label>
                 <Textarea
                   placeholder="Paste text here..."
-                  className="bg-white/5 border-white/10 h-32 resize-none"
+                  className="bg-muted/20 border-border h-32 resize-none font-medium"
                   value={docsContent}
                   onChange={(e) => setDocsContent(e.target.value)}
                 />
@@ -266,36 +266,36 @@ const AddKnowledgeModal = ({
                 }}
               />
               <div
-                className="border-2 border-dashed border-white/10 rounded-xl h-60 flex flex-col items-center justify-center text-center p-6 hover:bg-white/2 transition-colors cursor-pointer"
+                className="border-2 border-dashed border-border rounded-2xl h-64 flex flex-col items-center justify-center text-center p-6 hover:bg-muted/50 transition-all cursor-pointer group"
                 onClick={() => {
                   document.getElementById("knowledge-file-input")?.click();
                 }}
               >
-                <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center mb-4">
-                  <Upload className="w-6 h-6 text-zinc-400" />
+                <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                  <Upload className="w-8 h-8 text-muted-foreground" />
                 </div>
-                <p className="text-sm font-medium text-white">
+                <p className="text-base font-bold text-foreground">
                   {uploadedFile
                     ? uploadedFile.name
                     : "Click to upload or drag and drop"}
                 </p>
-                <p className="text-xs text-zinc-500 mt-1">
+                <p className="text-xs text-muted-foreground mt-2 font-medium">
                   CSV or PDF (max 15MB)
                 </p>
               </div>
             </TabsContent>
           </div>
 
-          <div className="p-6 border-t border-white/5 bg-black/20 flex justify-end gap-3">
+          <div className="p-6 border-t border-border bg-muted/30 flex justify-end gap-3">
             <Button
-              variant="ghost"
+              variant="outline"
               onClick={() => setIsOpen(false)}
-              className="text-zinc-400 hover:text-white hover:bg-white/5"
+              className="font-bold border-border"
             >
               Cancel
             </Button>
             <Button
-              className={`bg-white min-w-27.5 text-black hover:bg-zinc-200 ${
+              className={`font-bold px-8 ${
                 isLoading ? "opacity-50 cursor-not-allowed" : ""
               }`}
               onClick={handleImportWrapper}

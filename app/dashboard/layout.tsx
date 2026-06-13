@@ -2,9 +2,9 @@ import { cookies } from "next/headers";
 import Sidebar from "@/components/dashboard/sidebar";
 
 export const metadata = {
-  title: "OneMinute Support - Dashboard",
+  title: "Agentum - Dashboard",
   description:
-    "Instantly resolve customer questions with an assistant that reads your docs and speaks with empathy.",
+    "AI-Powered business automation and Customer Support Platform.",
 };
 
 export default async function DashboardLayout({
@@ -17,7 +17,7 @@ export default async function DashboardLayout({
   const hasOnboarded = !!metadataCookie?.value;
 
   return (
-    <div className="bg-[#050509] min-h-screen font-sans antialiased text-zinc-100 selection:bg-zinc-800 flex">
+    <div className="min-h-screen font-sans antialiased flex bg-background text-foreground">
       {hasOnboarded && <Sidebar />}
       <div
         className={`flex-1 flex flex-col relative min-h-screen transition-all duration-300 ${hasOnboarded ? "md:ml-64" : ""}`}

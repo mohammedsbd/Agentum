@@ -87,31 +87,31 @@ const DashboardOverView = () => {
   return (
     <div className="p-6 md:p-8 space-y-8 max-w-7xl mx-auto animate-in fade-in duration-500">
       <section className="space-y-4">
-        <h3 className="text-lg font-medium text-white">Setup Progress</h3>
+        <h3 className="text-xl font-bold text-foreground">Setup Progress</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {setupSteps.map((step, i) => (
             <Link key={i} href={step.href} className="block group">
               <Card
                 className={cn(
-                  "border-white/5 bg-white/2 hover:bg-white/4 transition-colors",
+                  "border-border bg-card hover:bg-muted transition-colors shadow-sm",
                   step.complete
                     ? "opacity-60"
-                    : "border-indigo-500/30 bg-indigo-500/5 hover:bg-indigo-500/10"
+                    : "border-primary/20 bg-primary/5 hover:bg-primary/10"
                 )}
               >
                 <CardContent className="p-4 flex items-center justify-between">
                   <span
                     className={cn(
-                      "text-sm font-medium",
-                      step.complete ? "text-zinc-500" : "text-white"
+                      "text-sm font-bold",
+                      step.complete ? "text-muted-foreground" : "text-foreground"
                     )}
                   >
                     {step.label}
                   </span>
                   {step.complete ? (
-                    <Check className="w-4 h-4 text-emerald-500" />
+                    <Check className="w-5 h-5 text-emerald-500" />
                   ) : (
-                    <ArrowUpRight className="w-4 h-4 text-indigo-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    <ArrowUpRight className="w-5 h-5 text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   )}
                 </CardContent>
               </Card>
@@ -122,89 +122,89 @@ const DashboardOverView = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
-          <Card className="border-white/5 bg-[#0A0A0E]">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-base font-medium text-white">
+          <Card className="border-border bg-card shadow-sm">
+            <CardHeader className="flex flex-row items-center justify-between pb-4">
+              <CardTitle className="text-lg font-bold text-foreground">
                 Knowledge Base
               </CardTitle>
               <Button
                 variant="outline"
                 size="sm"
-                className="h-8 text-xs border-white/10 bg-transparent text-zinc-400 hover:text-white hover:bg-white/12"
+                className="h-9 font-bold border-border hover:bg-muted"
                 asChild
               >
                 <Link href="/dashboard/knowledge">Manage sources</Link>
               </Button>
             </CardHeader>
             <CardContent className="grid grid-cols-3 gap-4">
-              <div className="p-3 rounded-lg bg-white/2 border border-white/5">
-                <div className="flex items-center gap-2 mb-1">
-                  <Globe className="w-4 h-4 text-blue-400" />
-                  <span className="text-xs text-zinc-500 font-medium">
+              <div className="p-4 rounded-xl bg-card border shadow-sm">
+                <div className="flex items-center gap-2 mb-2">
+                  <Globe className="w-5 h-5 text-blue-500" />
+                  <span className="text-xs text-muted-foreground font-bold uppercase tracking-wider">
                     Pages
                   </span>
                 </div>
-                <span className="text-2xl font-semibold text-white">
+                <span className="text-3xl font-extrabold text-foreground">
                   {knowledge.website || 0}
                 </span>
               </div>
 
-              <div className="p-3 rounded-lg bg-white/2 border border-white/5">
-                <div className="flex items-center gap-2 mb-1">
-                  <FileText className="w-4 h-4 text-purple-400" />
-                  <span className="text-xs text-zinc-500 font-medium">
-                    Manual Texts
+              <div className="p-4 rounded-xl bg-card border shadow-sm">
+                <div className="flex items-center gap-2 mb-2">
+                  <FileText className="w-5 h-5 text-purple-500" />
+                  <span className="text-xs text-muted-foreground font-bold uppercase tracking-wider">
+                    Texts
                   </span>
                 </div>
-                <span className="text-2xl font-semibold text-white">
+                <span className="text-3xl font-extrabold text-foreground">
                   {knowledge.text || 0}
                 </span>
               </div>
 
-              <div className="p-3 rounded-lg bg-white/2 border border-white/5">
-                <div className="flex items-center gap-2 mb-1">
-                  <Upload className="w-4 h-4 text-emerald-400" />
-                  <span className="text-xs text-zinc-500 font-medium">
+              <div className="p-4 rounded-xl bg-card border shadow-sm">
+                <div className="flex items-center gap-2 mb-2">
+                  <Upload className="w-5 h-5 text-emerald-500" />
+                  <span className="text-xs text-muted-foreground font-bold uppercase tracking-wider">
                     Uploads
                   </span>
                 </div>
-                <span className="text-2xl font-semibold text-white">
+                <span className="text-3xl font-extrabold text-foreground">
                   {knowledge.upload || 0}
                 </span>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-white/5 bg-[#0A0A0E] min-h-90">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <Card className="border-border bg-card shadow-sm min-h-90">
+            <CardHeader className="flex flex-row items-center justify-between pb-4">
               <div className="space-y-1">
-                <CardTitle className="text-base font-medium text-white">
+                <CardTitle className="text-lg font-bold text-foreground">
                   Sections
                 </CardTitle>
-                <CardDescription>
-                  configure behavior for different topics
+                <CardDescription className="text-base font-medium">
+                  Configure behavior for different topics
                 </CardDescription>
               </div>
               <Button
                 size="sm"
-                className="h-8 gap-1 bg-white text-black hover:bg-zinc-200"
+                className="h-10 gap-2 font-bold rounded-lg px-4"
                 asChild
               >
                 <Link href="/dashboard/sections">
-                  <Plus className="w-3 h-3" />
+                  <Plus className="w-4 h-4" />
                   Create Section
                 </Link>
               </Button>
             </CardHeader>
             <CardContent className="p-0">
-              <div className="divide-y divide-white/5">
+              <div className="divide-y border-t">
                 {sections.list.length === 0 ? (
-                  <div className="p-6 text-center text-sm text-zinc-500">
+                  <div className="p-12 text-center text-base text-muted-foreground font-medium">
                     No sections configured yet.
                   </div>
                 ) : (
                   <>
-                    <div className="grid grid-cols-12 gap-4 px-6 py-2 bg-white/2 text-[10px] text-zinc-500 uppercase tracking-wider font-medium">
+                    <div className="grid grid-cols-12 gap-4 px-8 py-3 bg-muted/50 text-[10px] text-muted-foreground uppercase tracking-widest font-bold">
                       <div className="col-span-5">Name</div>
                       <div className="col-span-3">Sources</div>
                       <div className="col-span-3">Tone</div>
@@ -213,18 +213,18 @@ const DashboardOverView = () => {
                     {sections?.list.map((section: any, i: number) => (
                       <div
                         key={i}
-                        className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-white/5 items-center hover:bg-white/2 transition-colors last:border-0 group"
+                        className="grid grid-cols-12 gap-4 px-8 py-5 items-center hover:bg-muted transition-colors last:border-0 group"
                       >
-                        <div className="col-span-5 text-sm font-medium text-zinc-200">
+                        <div className="col-span-5 text-base font-bold text-foreground">
                           {section.name}
                         </div>
-                        <div className="col-span-3 text-sm text-zinc-500">
+                        <div className="col-span-3 text-sm font-medium text-muted-foreground">
                           {section.sourceCount} sources
                         </div>
                         <div className="col-span-3">
                           <Badge
                             variant="secondary"
-                            className="bg-white/5 text-zinc-400 hover:bg-white/10 border-white/5 rounded-lg font-normal"
+                            className="bg-muted text-foreground hover:bg-muted/80 rounded-md font-bold"
                           >
                             {section.tone}
                           </Badge>
@@ -234,9 +234,9 @@ const DashboardOverView = () => {
                             variant="ghost"
                             size="icon"
                             onClick={() => router.push("/dashboard/sections")}
-                            className="h-6 w-6 text-zinc-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="h-8 w-8 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity"
                           >
-                            <MoreHorizontal className="w-4 h-4" />
+                            <MoreHorizontal className="w-5 h-5" />
                           </Button>
                         </div>
                       </div>
@@ -249,24 +249,24 @@ const DashboardOverView = () => {
         </div>
 
         <div className="space-y-8">
-          <Card className="border-white/5 bg-[#0A0A0E] min-h-80">
+          <Card className="border-border bg-card shadow-sm min-h-80">
             <CardHeader className="pb-4">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-base font-medium text-white">
+                <CardTitle className="text-lg font-bold text-foreground">
                   Recent Chats
                 </CardTitle>
                 <Link
                   href="/dashboard/conversations"
-                  className="text-xs text-zinc-500 hover:text-white transition-colors flex items-center gap-1"
+                  className="text-sm font-bold text-primary hover:underline transition-all flex items-center gap-1"
                 >
-                  View all <ArrowRight className="w-3 h-3" />
+                  View all <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
             </CardHeader>
-            <CardContent className="px-2 pb-2">
-              <div className="space-y-1">
+            <CardContent className="px-3 pb-4">
+              <div className="space-y-2">
                 {chats.length === 0 ? (
-                  <div className="p-4 text-center text-xs text-zinc-500">
+                  <div className="p-8 text-center text-sm text-muted-foreground font-medium">
                     No chats yet.
                   </div>
                 ) : (
@@ -274,17 +274,17 @@ const DashboardOverView = () => {
                     <Link
                       key={i}
                       href="/dashboard/conversations"
-                      className="block p-3 rounded-lg hover:bg-white/3 transition-colors group"
+                      className="block p-4 rounded-xl border border-transparent hover:border-border hover:bg-muted transition-all group"
                     >
                       <div className="flex justify-between items-start mb-1">
-                        <span className="text-sm font-medium text-zinc-200 group-hover:text-white transition-colors">
+                        <span className="text-base font-bold text-foreground group-hover:text-primary transition-colors">
                           {chat.title}
                         </span>
-                        <span className="text-[10px] text-zinc-600 whitespace-nowrap ml-2">
+                        <span className="text-[10px] text-muted-foreground font-bold uppercase ml-2">
                           {chat.time}
                         </span>
                       </div>
-                      <p className="text-xs text-zinc-500 line-clamp-1">
+                      <p className="text-sm text-muted-foreground font-medium line-clamp-1">
                         {chat.snippet}
                       </p>
                     </Link>
@@ -294,34 +294,34 @@ const DashboardOverView = () => {
             </CardContent>
           </Card>
 
-          <Card className="border-white/5 bg-[#0A0A0E]" id="widget">
+          <Card className="border-border bg-card shadow-sm" id="widget">
             <CardHeader>
-              <CardTitle className="text-base font-medium text-white">
+              <CardTitle className="text-lg font-bold text-foreground">
                 Install Widget
               </CardTitle>
-              <CardDescription>
-                Add this snippet to your website appropriate page.
+              <CardDescription className="text-base font-medium">
+                Add this snippet to your website.
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="relative group">
-                <pre className="bg-[#050509] p-4 rounded-lg text-xs text-zinc-400 overflow-x-auto border border-white/5">
-                  <code className="text-[10px] text-zinc-400 font-mono block overflow-x-auto whitespace-pre">
+                <pre className="bg-muted p-5 rounded-xl text-xs overflow-x-auto border border-border">
+                  <code className="text-[11px] text-foreground font-mono font-bold block overflow-x-auto whitespace-pre">
                     {`<script src="${origin}/widget.js" \n  data-id="${
                       data?.botId || "..."
                     }" \n  defer>\n</script>`}
                   </code>
                 </pre>
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   size="icon"
-                  className="absolute top-2 right-2 h-7 w-7 bg-white/10 hover:bg-white/20 text-white border-none"
+                  className="absolute top-3 right-3 h-8 w-8 bg-background shadow-sm border-border"
                   onClick={handleCopy}
                 >
                   {copied ? (
-                    <Check className="w-3 h-3" />
+                    <Check className="w-4 h-4 text-emerald-500" />
                   ) : (
-                    <Copy className="w-3 h-3" />
+                    <Copy className="w-4 h-4" />
                   )}
                 </Button>
               </div>

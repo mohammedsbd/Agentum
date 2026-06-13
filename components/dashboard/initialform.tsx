@@ -167,28 +167,28 @@ const InitialForm = () => {
 
   return (
     <div className="w-full max-w-xl mx-auto min-h-100 flex flex-col justify-center">
-      <div className="fixed top-0 left-0 w-full h-1 bg-white/5">
+      <div className="fixed top-0 left-0 w-full h-1 bg-muted">
         <div
-          className="h-full bg-indigo-500 transition-all duration-500 ease-out"
+          className="h-full bg-primary transition-all duration-500 ease-out"
           style={{ width: `${progress}%` }}
         />
       </div>
-      <div className="fixed top-6 right-6 md:top-8 md:right-8 text-xs font-medium text-zinc-600 uppercase tracking-widest pointer-events-none fade-in">
+      <div className="fixed top-6 right-6 md:top-8 md:right-8 text-xs font-bold text-muted-foreground uppercase tracking-widest pointer-events-none fade-in">
         Setup your account
       </div>
 
       {isSubmitting ? (
         <div className="flex flex-col items-center justify-center text-center animate-in fade-in duration-700">
           <div className="relative mb-8">
-            <div className="absolute inset-0 bg-indigo-500/20 blur-xl rounded-full animate-pulse" />
-            <div className="relative w-16 h-16 bg-linear-to-tr from-indigo-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
-              <Sparkles className="w-8 h-8 text-white animate-bounce" />
+            <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full animate-pulse" />
+            <div className="relative w-16 h-16 bg-linear-to-tr from-primary to-primary/60 rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20">
+              <Sparkles className="w-8 h-8 text-primary-foreground animate-bounce" />
             </div>
           </div>
-          <h2 className="text-2xl font-medium text-white mb-2">
+          <h2 className="text-2xl font-bold text-foreground mb-2">
             Storing your organization info!
           </h2>
-          <p className="text-zinc-500">Scanning {formData.websiteUrl}...</p>
+          <p className="text-muted-foreground font-medium">Scanning {formData.websiteUrl}...</p>
         </div>
       ) : (
         <div
@@ -206,12 +206,12 @@ const InitialForm = () => {
                   variant="ghost"
                   size="icon"
                   onClick={handleBack}
-                  className="text-zinc-500 hover:text-zinc-300 hover:bg-white/5 rounded-full -ml-2 w-8 h-8"
+                  className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-full -ml-2 w-8 h-8"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </Button>
               )}
-              <span className="text-xs font-medium text-indigo-400 uppercase tracking-wider bg-indigo-500/10 border border-indigo-500/20 px-2 py-1 rounded-md">
+              <span className="text-xs font-bold text-primary uppercase tracking-wider bg-primary/10 border border-primary/20 px-2 py-1 rounded-md">
                 Step {currentStep + 1} of {STEPS.length}
               </span>
             </div>
@@ -219,10 +219,10 @@ const InitialForm = () => {
 
           <div className="space-y-6">
             <div className="space-y-2">
-              <h1 className="text-3xl md:text-4xl font-medium text-white leading-tight">
+              <h1 className="text-3xl md:text-5xl font-extrabold text-foreground leading-tight">
                 {stepData.question}
               </h1>
-              <p className="text-lg text-zinc-500 font-light">
+              <p className="text-lg text-muted-foreground font-medium">
                 {stepData.description}
               </p>
             </div>
@@ -240,7 +240,7 @@ const InitialForm = () => {
                   }
                   onKeyDown={handleKeyDown}
                   placeholder={stepData.placeholder}
-                  className="w-full bg-transparent border-0 border-b border-white/10 text-xl md:text-2xl py-4 pr-12 text-white placeholder:text-zinc-700 focus-visible:ring-0 focus-visible:border-indigo-500 rounded-none h-auto resize-none min-h-30 shadow-none transition-colors"
+                  className="w-full bg-transparent border-0 border-b border-muted text-xl md:text-3xl py-4 pr-12 text-foreground font-bold placeholder:text-muted-foreground/50 focus-visible:ring-0 focus-visible:border-primary rounded-none h-auto resize-none min-h-30 shadow-none transition-colors"
                   autoFocus
                 />
               ) : (
@@ -256,27 +256,27 @@ const InitialForm = () => {
                   }
                   onKeyDown={handleKeyDown}
                   placeholder={stepData.placeholder}
-                  className="w-full bg-transparent border-0 border-b border-white/10 text-xl md:text-2xl py-4 pr-12 text-white placeholder:text-zinc-700 focus-visible:ring-0 focus-visible:border-indigo-500 rounded-none h-auto shadow-none transition-colors"
+                  className="w-full bg-transparent border-0 border-b border-muted text-xl md:text-3xl py-4 pr-12 text-foreground font-bold placeholder:text-muted-foreground/50 focus-visible:ring-0 focus-visible:border-primary rounded-none h-auto shadow-none transition-colors"
                   autoFocus
                 />
               )}
 
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 text-zinc-600 pointer-events-none">
-                <Icon className="w-6 h-6" />
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+                <Icon className="w-8 h-8" />
               </div>
             </div>
 
             {submitError && (
-              <p className="rounded-md border border-red-500/20 bg-red-500/10 px-3 py-2 text-sm text-red-300">
+              <p className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm font-bold text-destructive">
                 {submitError}
               </p>
             )}
 
             <div className="flex items-center justify-between pt-8">
-              <div className="hidden sm:flex items-center gap-2 text-xs text-zinc-600">
+              <div className="hidden sm:flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase tracking-widest">
                 {stepData.type === "textarea" ? (
                   <>
-                    <Command className="w-3 h-3" />
+                    <Command className="w-4 h-4" />
                     <span>+ Enter</span>
                   </>
                 ) : (
@@ -289,17 +289,17 @@ const InitialForm = () => {
                 onClick={handleNext}
                 disabled={!isStepValid}
                 className={cn(
-                  "rounded-full px-8 py-6 text-base font-medium transition-all duration-300",
+                  "rounded-full px-10 py-7 text-lg font-bold transition-all duration-300 shadow-lg",
                   !isStepValid
-                    ? "bg-zinc-800 text-zinc-500 hover:bg-zinc-800 cursor-not-allowed"
-                    : "bg-white text-black hover:bg-zinc-200 hover:shadow-lg hover:shadow-white/10"
+                    ? "bg-muted text-muted-foreground cursor-not-allowed"
+                    : "bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-105"
                 )}
               >
                 {currentStep === STEPS.length - 1 ? "Submit" : "Continue"}
                 {currentStep === STEPS.length - 1 ? (
-                  <Sparkles className="w-4 h-4 ml-2" />
+                  <Sparkles className="w-5 h-5 ml-2" />
                 ) : (
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                  <ArrowRight className="w-5 h-5 ml-2" />
                 )}
               </Button>
             </div>

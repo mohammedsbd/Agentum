@@ -1,4 +1,4 @@
-# OneMinute Support
+# Agentum
 
 A Next.js 16 (App Router, React 19) application that lets businesses ingest their docs/website/CSVs and embed an AI customer-support chat widget on third-party sites. Built with Drizzle ORM on Neon Postgres, Scalekit OIDC for dashboard SSO, OpenAI for chat + summarization, and Firecrawl for website scraping.
 

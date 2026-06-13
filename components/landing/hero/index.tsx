@@ -1,127 +1,131 @@
-import { ArrowRight, Send, User } from "lucide-react";
+import { ArrowRight, Send, User, Bot, Sparkles } from "lucide-react";
 import Image from "next/image";
 import React from "react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const Hero = () => {
   return (
     <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 px-6 overflow-hidden">
-      <div className="max-w-4xl mx-auto text-center relative z-20">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-8 animate-float">
-          <span className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)]"></span>
-          <span className="text-xs text-zinc-300 tracking-wide font-light">
-            Version 1.0.0 available now
+      {/* Background Image with Overlay */}
+      <div className="absolute inset-0 -z-20">
+        <Image
+          src="/night.png"
+          alt="Night City"
+          fill
+          className="object-cover opacity-40 dark:opacity-20 transition-opacity duration-1000"
+          priority
+        />
+        <div className="absolute inset-0 bg-linear-to-b from-background via-background/80 to-background" />
+      </div>
+
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] animate-pulse pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[150px] animate-float pointer-events-none" />
+      </div>
+      
+      <div className="max-w-5xl mx-auto text-center relative z-20">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border bg-background/50 backdrop-blur-md mb-8 animate-in fade-in slide-in-from-top-4 duration-1000">
+          <div className="w-2 h-2 rounded-full bg-primary animate-ping" />
+          <span className="text-sm text-foreground/80 font-bold tracking-wider uppercase">
+            Agentum v1.0
           </span>
         </div>
 
-        <h1 className="text-5xl md:text-7xl font-medium tracking-tight text-white mb-6 leading-[1.1]">
-          Human-friendly support,
-          <br />
-          <span className="text-zinc-500">powered by AI.</span>
+        <h1 className="text-5xl md:text-8xl font-extrabold tracking-tight text-foreground mb-8 leading-[1.05] animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          AI-Powered Business <br />
+          <span className="text-primary">Automation Platform</span>
         </h1>
 
-        <p className="text-lg md:text-xl text-zinc-400 font-light mb-10 max-w-2xl mx-auto leading-relaxed">
-          Instantly resolve customer questions with an assistant that reads your
-          docs and speaks with empathy. No robotic replies, just answers.
+        <p className="text-lg md:text-2xl text-muted-foreground font-medium mb-12 max-w-3xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-6 duration-1000">
+          A scalable, enterprise-level platform that enables businesses to deploy intelligent, 
+          customizable AI agents trained on their own data without technical expertise.
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
-          <button className="h-11 px-8 cursor-pointer rounded-full bg-white text-black text-sm font-medium hover:bg-zinc-200 transition-all flex items-center gap-2">
-            Start for free
-            <ArrowRight className="w-4 h-4" />
-          </button>
-          <button className="h-11 px-8 rounded-full border border-zinc-800 text-zinc-300 text-sm font-medium hover:border-zinc-600 hover:text-white transition-all bg-black/20 backdrop-blur-sm">
-            View demo
-          </button>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-24 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+          <Button size="lg" className="h-14 px-10 text-lg rounded-full" asChild>
+            <Link href="/api/auth">
+              Start for free
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Link>
+          </Button>
+          <Button variant="outline" size="lg" className="h-14 px-10 text-lg rounded-full" asChild>
+            <Link href="#features">
+              Explore features
+            </Link>
+          </Button>
         </div>
       </div>
 
       {/* Floating Chat Interface Visualization */}
-      <div className="max-w-3xl mx-auto relative z-10">
-        <div className="absolute inset-0 bg-indigo-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+      <div className="max-w-4xl mx-auto relative z-10 animate-in zoom-in-95 duration-1000">
+        <div className="absolute -inset-4 bg-primary/20 blur-3xl rounded-full -z-10 opacity-50 dark:opacity-20" />
 
-        <div className="rounded-2xl p-1 md:p-2 relative overflow-hidden ring-1 ring-white/10 bg-[#0a0a0e] shadow-2xl">
-          <div className="flex flex-col h-125 md:h-150 w-full bg-[#0a0a0e] rounded-xl overflow-hidden">
-            <div className="h-14 border-b border-white/5 flex items-center justify-between px-6 bg-[#0E0E12] shrink-0">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-sm font-medium text-zinc-300">
-                  OneMinute Stack Inc.
+        <div className="rounded-3xl p-2 md:p-3 relative overflow-hidden border bg-background/50 backdrop-blur-xl shadow-2xl">
+          <div className="flex flex-col h-[500px] md:h-[600px] w-full rounded-2xl overflow-hidden bg-card/50">
+            <div className="h-16 border-b flex items-center justify-between px-8 bg-muted/30 shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-base font-semibold">
+                  Agentum AI Assistant
                 </span>
               </div>
             </div>
 
-            <div className="flex-1 p-6 overflow-y-auto space-y-6 bg-zinc-950/30">
+            <div className="flex-1 p-8 overflow-y-auto space-y-8">
               <div className="flex w-full flex-col items-start">
-                <div className="flex max-w-[85%] gap-3 flex-row">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 border border-white/5 overflow-hidden">
-                    <Image
-                      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=64&h=64&q=80&fit=crop"
-                      alt="Support Agent"
-                      width={40}
-                      height={40}
-                      className="w-full h-full object-cover"
-                    />
+                <div className="flex max-w-[85%] gap-4 flex-row">
+                  <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shrink-0 shadow-lg shadow-primary/20">
+                    <Bot className="w-6 h-6 text-primary-foreground" />
                   </div>
 
-                  <div className="space-y-2">
-                    <div className="p-4 rounded-2xl text-sm leading-relaxed shadow-sm bg-white text-zinc-900 rounded-tl-sm">
-                      Hi there, How can I help you today?
+                  <div className="space-y-3">
+                    <div className="p-5 rounded-2xl text-base leading-relaxed border bg-background shadow-sm rounded-tl-none">
+                      Hi there! I'm your custom Agentum assistant. I've been trained on your business data. How can I assist you today?
                     </div>
 
-                    <div className="flex flex-wrap gap-2 pt-1 ml-1">
-                      <span className="px-3 py-1.5 rounded-full border border-zinc-700 bg-zinc-800/50 text-zinc-300 text-xs font-medium cursor-default">
-                        FAQ
-                      </span>
-                      <span className="px-3 py-1.5 rounded-full border border-zinc-700 bg-zinc-800/50 text-zinc-300 text-xs font-medium cursor-default">
-                        Pricing
-                      </span>
-                      <span className="px-3 py-1.5 rounded-full border border-zinc-700 bg-zinc-800/50 text-zinc-300 text-xs font-medium cursor-default">
-                        Support
-                      </span>
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      {['Our Features', 'Pricing Plans', 'How to Integrate'].map((tag) => (
+                        <span key={tag} className="px-4 py-1.5 rounded-full border bg-muted/50 text-muted-foreground text-sm font-medium hover:bg-muted transition-colors cursor-pointer">
+                          {tag}
+                        </span>
+                      ))}
                     </div>
                   </div>
                 </div>
+              </div>
 
-                <div className="flex w-full flex-col items-end">
-                  <div className="flex max-w-[85%] gap-3 flex-row-reverse">
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 border border-white/5 bg-zinc-800">
-                      <User className="w-4 h-4 text-zinc-400" />
-                    </div>
-                    <div className="p-4 rounded-2xl text-sm leading-relaxed shadow-sm bg-zinc-800 text-zinc-200 rounded-tr-sm">
-                      I need some information about oneminute stack
-                    </div>
+              <div className="flex w-full flex-col items-end">
+                <div className="flex max-w-[85%] gap-4 flex-row-reverse">
+                  <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center shrink-0 border">
+                    <User className="w-6 h-6 text-secondary-foreground" />
+                  </div>
+                  <div className="p-5 rounded-2xl text-base leading-relaxed bg-primary text-primary-foreground shadow-lg shadow-primary/10 rounded-tr-none">
+                    How do I embed this agent into my website?
                   </div>
                 </div>
+              </div>
 
-                <div className="flex w-full flex-col items-start mt-5">
-                  <div className="flex max-w-[85%] gap-3 flex-row">
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 border border-white/5 overflow-hidden">
-                      <Image
-                        src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=64&h=64&q=80&fit=crop"
-                        alt="Support Agent"
-                        width={40}
-                        height={40}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="p-4 rounded-2xl text-sm leading-relaxed shadow-sm bg-white text-zinc-900 rounded-tl-sm">
-                      OneMinute Stack is an integrated ecosystem designed to
-                      enhance developer efficiency. It includes tools like
-                      OneMinute Logs for real-time monitoring and Becodemy for
-                      community support.
-                    </div>
+              <div className="flex w-full flex-col items-start">
+                <div className="flex max-w-[85%] gap-4 flex-row">
+                  <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shrink-0 shadow-lg shadow-primary/20">
+                    <Bot className="w-6 h-6 text-primary-foreground" />
+                  </div>
+                  <div className="p-5 rounded-2xl text-base leading-relaxed border bg-background shadow-sm rounded-tl-none">
+                    It's simple! You just need to copy a single line of SDK script and paste it into your website's header. I can walk you through the process step-by-step.
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="p-4 bg-[#0A0A0E] border-t border-white/5 shrink-0">
+            <div className="p-6 border-t bg-muted/20 shrink-0">
               <div className="relative">
-                <div className="min-h-12.5 w-full px-4 py-3 text-sm bg-zinc-900/50 border border-white/10 rounded-xl text-zinc-500 flex items-center justify-between">
-                  <span>Type a message...</span>
-                  <button className="h-8 w-8 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-500 cursor-default">
-                    <Send className="w-4 h-4" />
-                  </button>
+                <div className="min-h-[56px] w-full px-6 py-4 text-base bg-background border rounded-2xl text-muted-foreground flex items-center justify-between shadow-inner">
+                  <span>Type your question...</span>
+                  <Button size="icon" variant="ghost" className="rounded-xl h-10 w-10">
+                    <Send className="w-5 h-5" />
+                  </Button>
                 </div>
               </div>
             </div>

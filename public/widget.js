@@ -8,7 +8,7 @@
     var widgetId = script.getAttribute("data-id");
 
     if (!widgetId) {
-      console.error("[OneMinuteSupport] Missing data-id");
+      console.error("[Agentum] Missing data-id");
       return;
     }
 
@@ -62,9 +62,9 @@
         });
       })
       .catch(function (err) {
-        console.error("[OneMinuteSupport] Failed to load widget:", err);
+        console.error("[Agentum] Failed to load widget:", err);
       });
   } catch (error) {
-    console.error("[OneMinuteSupport] Widget error:", error);
+    console.error("[Agentum] Widget error:", error);
   }
 })();

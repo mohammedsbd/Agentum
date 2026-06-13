@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -9,9 +10,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "OneMinute Support - Human-friendly AI",
+  title: "Agentum - AI-Powered Business Automation",
   description:
-    "Instantly resolve customer questions with an assistant that reads your docs and speaks with empathy.",
+    "AI-Powered business automation and Customer Support Platform.",
 };
 
 export default function RootLayout({
@@ -20,20 +21,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} bg-[#050509] min-h-screen flex flex-col p-0 antialiased text-zinc-100 selection:bg-zinc-800 font-sans`}
+        className={`${inter.variable} min-h-screen flex flex-col p-0 antialiased font-sans`}
       >
-        <div className="fixed inset-0 -z-20 pointer-events-none">
-          <div className="w-full h-full opacity-20">
-            <div
-              data-us-project="NMlvqnkICwYYJ6lYb064"
-              className="absolute w-full h-full left-0 top-0"
-            />
-          </div>
-          <div className="absolute inset-0 bg-linear-to-t from-[#050509] via-transparent to-transparent opacity-80" />
-        </div>
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
 
         <Script
           id="unicorn-studio"

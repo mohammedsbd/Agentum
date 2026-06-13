@@ -1,81 +1,87 @@
 import React from "react";
+import { CheckCircle2 } from "lucide-react";
 
 const Integration = () => {
+  const steps = [
+    {
+      title: "Ingest Knowledge",
+      description: "Point us to your docs or upload files.",
+      icon: <CheckCircle2 className="w-5 h-5 text-primary" />,
+    },
+    {
+      title: "Copy Embed Code",
+      description: "Get your unique SDK script tag.",
+      icon: <CheckCircle2 className="w-5 h-5 text-primary" />,
+    },
+    {
+      title: "Go Live",
+      description: "AI agents start handling requests instantly.",
+      icon: <CheckCircle2 className="w-5 h-5 text-primary" />,
+    },
+  ];
+
   return (
-    <section
-      id="how-it-works"
-      className="py-24 border-t border-white/5 bg-black/20"
-    >
-      <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
+    <section id="how-it-works" className="py-24 border-y bg-muted/20 scroll-mt-20">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center gap-20">
         <div className="flex-1">
-          <h2 className="text-3xl md:text-4xl font-medium text-white tracking-tight mb-6">
-            Drop-in simplicity.
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-8">
+            Drop-in <span className="text-primary">Simplicity</span>
           </h2>
-          <p className="text-lg text-zinc-400 font-light mb-8 leading-relaxed">
-            No complex SDKs or user syncing. Just add our script tag and
-            you&apos;re live. We inherit your CSS variables automatically.
+          <p className="text-xl text-muted-foreground font-medium mb-12 leading-relaxed">
+            Integrate Agentum into any platform in minutes. Our lightweight SDK 
+            handles the heavy lifting, inheriting your site's styles automatically.
           </p>
 
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-4 text-sm text-zinc-300 font-light">
-              <div className="w-6 h-6 rounded-full bg-zinc-900 border border-zinc-700 flex items-center justify-center text-[10px] text-zinc-500">
-                1
+          <div className="space-y-8">
+            {steps.map((step, index) => (
+              <div key={index} className="flex items-start gap-4">
+                <div className="mt-1">{step.icon}</div>
+                <div>
+                  <h3 className="text-xl font-bold mb-1">{step.title}</h3>
+                  <p className="text-muted-foreground font-medium">{step.description}</p>
+                </div>
               </div>
-              Scan your documentation URL
-            </div>
-            <div className="w-px h-4 bg-zinc-800 ml-3"></div>
-            <div className="flex items-center gap-4 text-sm text-zinc-300 font-light">
-              <div className="w-6 h-6 rounded-full bg-zinc-900 border border-zinc-700 flex items-center justify-center text-[10px] text-zinc-500">
-                2
-              </div>
-              Copy the embed snippet
-            </div>
-            <div className="w-px h-4 bg-zinc-800 ml-3"></div>
-            <div className="flex items-center gap-4 text-sm text-zinc-300 font-light">
-              <div className="w-6 h-6 rounded-full bg-zinc-900 border border-zinc-700 flex items-center justify-center text-[10px] text-zinc-500">
-                3
-              </div>
-              Auto-resolve tickets
-            </div>
+            ))}
           </div>
         </div>
 
-        <div className="flex-1 w-full max-w-lg">
-          <div className="glass-card rounded-xl p-6 relative">
-            <div className="flex items-center justify-between mb-4">
+        <div className="flex-1 w-full max-w-2xl">
+          <div className="rounded-3xl border bg-card/50 backdrop-blur-xl shadow-2xl overflow-hidden">
+            <div className="flex items-center justify-between px-6 py-4 border-b bg-muted/30">
               <div className="flex gap-2">
                 <div className="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/50"></div>
                 <div className="w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/50"></div>
                 <div className="w-3 h-3 rounded-full bg-green-500/20 border border-green-500/50"></div>
               </div>
-              <span className="text-xs text-zinc-600 font-mono">
+              <span className="text-sm font-mono font-medium text-muted-foreground">
                 index.html
               </span>
             </div>
 
-            <div className="font-mono text-xs md:text-sm leading-7 text-zinc-400">
-              <div className="text-zinc-600">
-                &lt;!-- OneMinute Support --&gt;
+            <div className="p-8 font-mono text-sm md:text-base leading-relaxed bg-background/50">
+              <div className="text-muted-foreground/60 mb-2">
+                &lt;!-- Agentum AI Integration --&gt;
               </div>
-              <div>
-                &lt;<span className="text-pink-400">script</span>
+              <div className="text-foreground">
+                &lt;<span className="text-primary font-bold">script</span>
               </div>
-              <div className="pl-4">
-                <span className="text-indigo-400">src</span>=
-                <span className="text-emerald-400">
-                  &quot;https://oneminute-support.vercel.app/widget.js&quot;
+              <div className="pl-6 mt-1">
+                <span className="text-primary/80">src</span>=
+                <span className="text-emerald-500 font-medium">
+                  &quot;https://agentum.ai/sdk/widget.js&quot;
                 </span>
               </div>
-              <div className="pl-4">
-                <span className="text-indigo-400">data-id</span>=
-                <span className="text-emerald-400">
-                  &quot;b7885803-18ca-479b-baf6-c6b289e309a5&quot;
+              <div className="pl-6 mt-1">
+                <span className="text-primary/80">data-agent-id</span>=
+                <span className="text-emerald-500 font-medium">
+                  &quot;ag_82f1x9283k4l...&quot;
                 </span>
-                <br />
-                <span className="text-indigo-400">defer&gt;</span>
               </div>
-              <div>
-                &lt;/<span className="text-pink-400">script</span>&gt;
+              <div className="pl-6 mt-1 font-bold">
+                defer&gt;
+              </div>
+              <div className="text-foreground mt-1">
+                &lt;/<span className="text-primary font-bold">script</span>&gt;
               </div>
             </div>
           </div>

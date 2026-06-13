@@ -83,32 +83,32 @@ const TeamSection = () => {
   };
 
   return (
-    <Card className="border-white/5 bg-[#0a0a0e]">
+    <Card className="border-border bg-card shadow-sm">
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
-          <CardTitle className="text-base font-medium text-white">
+          <CardTitle className="text-base font-bold text-foreground">
             Team Members
           </CardTitle>
-          <CardDescription>Manage your team and their access.</CardDescription>
+          <CardDescription className="text-sm font-medium">Manage your team and their access.</CardDescription>
         </div>
         <Dialog open={openDiaog} onOpenChange={setOpenDialog}>
           <DialogTrigger asChild>
-            <Button size="sm" className="bg-white text-black hover:bg-zinc-200">
+            <Button size="sm" className="font-bold">
               <Plus className="w-4 h-4 mr-2" />
               Add Member
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-[#0E0E12] border-white/10 text-white sm:max-w-106.25">
+          <DialogContent className="bg-card border-border text-foreground sm:max-w-md">
             <DialogHeader>
-              <DialogTitle>Add Team Member</DialogTitle>
-              <DialogDescription className="text-zinc-400">
+              <DialogTitle className="font-bold">Add Team Member</DialogTitle>
+              <DialogDescription className="text-muted-foreground font-medium">
                 Add a new member to your organization. They will be added
                 immediately.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
-                <Label htmlFor="name" className="text-zinc-300">
+                <Label htmlFor="name" className="text-foreground font-bold text-xs uppercase tracking-wider">
                   Name
                 </Label>
                 <Input
@@ -116,11 +116,11 @@ const TeamSection = () => {
                   placeholder="John Doe"
                   value={newMemberName}
                   onChange={(e) => setNewMemberName(e.target.value)}
-                  className="bg-white/5 border-white/10 text-white"
+                  className="bg-muted/20 border-border text-foreground font-medium"
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="email" className="text-zinc-300">
+                <Label htmlFor="email" className="text-foreground font-bold text-xs uppercase tracking-wider">
                   Email
                 </Label>
                 <Input
@@ -128,21 +128,21 @@ const TeamSection = () => {
                   placeholder="john@example.com"
                   value={newMemberEmail}
                   onChange={(e) => setNewMemberEmail(e.target.value)}
-                  className="bg-white/5 border-white/10 text-white"
+                  className="bg-muted/20 border-border text-foreground font-medium"
                 />
               </div>
-              <DialogFooter>
+              <DialogFooter className="gap-2 sm:gap-0">
                 <Button
                   variant="outline"
                   onClick={() => setOpenDialog(false)}
-                  className="border-white/10 text-zinc-300 bg-white/5 hover:bg-white/10 hover:text-white"
+                  className="font-bold border-border"
                 >
                   Cancel
                 </Button>
                 <Button
                   onClick={handleAddMember}
                   disabled={isAdding}
-                  className="bg-white text-black hover:bg-zinc-200"
+                  className="font-bold"
                 >
                   {isAdding ? "Adding..." : "Add Member"}
                 </Button>
@@ -154,11 +154,11 @@ const TeamSection = () => {
       <CardContent>
         <div className="space-y-4">
           {isLoading ? (
-            <div className="text-center py-4 text-zinc-500 text-sm">
+            <div className="text-center py-8 text-muted-foreground text-sm font-medium">
               Loading team...
             </div>
           ) : team.length === 0 ? (
-            <div className="text-center py-4 text-zinc-500 text-sm">
+            <div className="text-center py-8 text-muted-foreground text-sm font-medium">
               No team members found.
             </div>
           ) : (
@@ -166,40 +166,40 @@ const TeamSection = () => {
               {team.map((member) => (
                 <div
                   key={member.id}
-                  className="flex items-center justify-between p-3 rounded-lg border border-white/5 bg-white/1 hover:bg-white/2 transition-colors"
+                  className="flex items-center justify-between p-4 rounded-xl border border-border bg-card hover:bg-muted/50 transition-all group shadow-sm"
                 >
                   <div className="flex items-center gap-3">
-                    <Avatar className="h-9 w-9 border border-white/10">
-                      <AvatarFallback className="bg-zinc-800 text-zinc-400">
+                    <Avatar className="h-10 w-10 border border-border shadow-inner">
+                      <AvatarFallback className="bg-primary text-primary-foreground font-bold">
                         {member.name?.slice(0, 2).toUpperCase() || "UN"}
                       </AvatarFallback>
                     </Avatar>
                     <div>
                       <div className="flex items-center gap-2">
-                        <p className="text-sm font-medium text-white">
+                        <p className="text-sm font-bold text-foreground">
                           {member.name || "Unknown"}
                         </p>
                         <Badge
                           variant="secondary"
                           className={cn(
-                            "capitalize border mx-1 mb-1",
+                            "capitalize font-bold text-[10px]",
                             member.status === "active"
-                              ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20 hover:bg-emerald-500/20"
-                              : "bg-yellow-500/10 text-yellow-500 border-yellow-500/20 hover:bg-yellow-500/20"
+                              ? "bg-emerald-500/10 text-emerald-500 border-emerald-500/20"
+                              : "bg-amber-500/10 text-amber-500 border-amber-500/20"
                           )}
                         >
                           {member.status}
                         </Badge>
                       </div>
-                      <p className="text-xs text-zinc-500">
+                      <p className="text-xs text-muted-foreground font-medium">
                         {member.user_email}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge
-                      variant={"secondary"}
-                      className="bg-white/5 capitalize text-zinc-400 hover:bg-white/10 border-white/5 mx-1"
+                      variant={"outline"}
+                      className="capitalize text-muted-foreground font-bold text-[10px] border-border"
                     >
                       {member.role}
                     </Badge>

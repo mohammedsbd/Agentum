@@ -201,24 +201,24 @@ const Page = () => {
   const isPreviewMode = selectedSection?.id !== "new";
 
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-6 md:p-8 space-y-10 max-w-7xl mx-auto animate-in fade-in duration-500">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white">Sections</h1>
-          <p className="text-zinc-400 mt-1">
+          <h1 className="text-3xl font-bold text-foreground tracking-tight">Sections</h1>
+          <p className="text-muted-foreground mt-1 font-medium">
             Define behavior and tone for different topics.
           </p>
         </div>
         <Button
           onClick={handleCreateSection}
-          className="bg-white text-black hover:bg-zinc-200"
+          className="font-bold px-6 shadow-sm"
         >
           <Plus className="w-4 h-4 mr-2" />
           Create Section
         </Button>
       </div>
 
-      <Card className="border-white/5 bg-[#0A0A0E]">
+      <Card className="border-border bg-card shadow-sm">
         <CardContent className="p-0">
           <SectionsTable
             sections={sections}
@@ -230,23 +230,23 @@ const Page = () => {
       </Card>
 
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-        <SheetContent className="w-full sm:max-w-lg border-l border-white/10 bg-[#0A0A0E] p-0 shadow-2xl flex flex-col h-full">
+        <SheetContent className="w-full sm:max-w-lg border-l border-border bg-card p-0 shadow-2xl flex flex-col h-full">
           {selectedSection && (
             <>
-              <SheetHeader className="p-6 border-b border-white/5">
-                <SheetTitle className="text-xl text-white">
+              <SheetHeader className="p-6 border-b border-border">
+                <SheetTitle className="text-2xl font-bold text-foreground">
                   {selectedSection.id === "new"
                     ? "Create Section"
                     : "View Section"}
                 </SheetTitle>
-                <SheetDescription className="text-zinc-500">
+                <SheetDescription className="text-muted-foreground font-medium">
                   {selectedSection.id === "new"
                     ? "Configure how the AI behaves for this specific topic."
                     : "Review section configuration and data sources."}
                 </SheetDescription>
               </SheetHeader>
 
-              <div className="flex-1 overflow-y-auto px-6 py-0 space-y-8">
+              <div className="flex-1 overflow-y-auto p-6 space-y-8 no-scrollbar">
                 <SectionFormFields
                   formData={formData}
                   setFormData={setFormData}
@@ -259,9 +259,9 @@ const Page = () => {
               </div>
 
               {selectedSection.id === "new" && (
-                <div className="p-6 border-t border-white/5">
+                <div className="p-6 border-t border-border bg-muted/20">
                   <Button
-                    className="w-full bg-white text-black hover:bg-zinc-200"
+                    className="w-full font-bold h-12 text-base"
                     onClick={handleSaveSection}
                     disabled={isSaving}
                   >
@@ -271,11 +271,11 @@ const Page = () => {
               )}
 
               {selectedSection.id !== "new" && (
-                <div className="p-6 bg-red-500/5 border-t border-red-500/10">
-                  <h5 className="text-sm font-medium text-red-400 mb-1">
+                <div className="p-6 bg-destructive/5 border-t border-destructive/10">
+                  <h5 className="text-sm font-bold text-destructive mb-1 uppercase tracking-wider">
                     Danger Zone
                   </h5>
-                  <p className="text-xs text-red-500/70 mb-3">
+                  <p className="text-xs text-destructive/70 mb-4 font-medium">
                     Deleting this section will remove all associated routing
                     rules.
                   </p>
@@ -283,7 +283,7 @@ const Page = () => {
                   <Button
                     variant="destructive"
                     size="sm"
-                    className="w-full bg-red-500/10 text-red-500 border border-red-500/20 hover:bg-red-500/20 shadow-none"
+                    className="w-full font-bold"
                     onClick={handleDeleteSection}
                     disabled={isSaving}
                   >

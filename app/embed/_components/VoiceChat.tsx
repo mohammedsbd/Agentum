@@ -247,7 +247,7 @@ const VoiceChat = ({ token, primaryColor, welcomeMessage, sections }: VoiceChatP
           href={"/"}
           className="text-[10px] text-zinc-600 font-medium hover:text-zinc-500 transition-colors"
         >
-          Powered by OneMinute Support
+          Powered by Agentum
         </Link>
       </div>
     </>

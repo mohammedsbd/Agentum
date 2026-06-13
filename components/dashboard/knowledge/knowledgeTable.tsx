@@ -120,24 +120,24 @@ const KnowledgeTable = ({
   isLoading,
 }: KnowledgeTableProps) => {
   return (
-    <Card className="border-white/5 bg-[#0a0a0e]">
+    <Card className="border-border bg-card shadow-sm">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base font-medium text-white">
+          <CardTitle className="text-base font-bold text-foreground">
             Sources
           </CardTitle>
           <div className="flex items-center gap-2">
             <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-zinc-500" />
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
-                className="pl-9 h-9 w-50 md:w-75 bg-white/2 border-white/10 text-sm"
+                className="pl-9 h-9 w-50 md:w-75 bg-muted/20 border-border text-sm"
                 placeholder="Search sources..."
               />
             </div>
             <Button
               variant="ghost"
               size="icon"
-              className="text-zinc-400 hover:text-white hover:bg-white/5"
+              className="text-muted-foreground hover:text-foreground hover:bg-muted"
             >
               <Filter className="w-4 h-4" />
             </Button>
@@ -148,20 +148,20 @@ const KnowledgeTable = ({
       <CardContent className="p-0">
         <Table>
           <TableHeader>
-            <TableRow className="border-white/5 hover:bg-transparent">
-              <TableHead className="text-xs uppercase font-medium text-zinc-500">
+            <TableRow className="border-border hover:bg-transparent">
+              <TableHead className="text-xs uppercase font-bold text-muted-foreground tracking-wider">
                 Name
               </TableHead>
-              <TableHead className="text-xs uppercase font-medium text-zinc-500">
+              <TableHead className="text-xs uppercase font-bold text-muted-foreground tracking-wider">
                 Type
               </TableHead>
-              <TableHead className="text-xs uppercase font-medium text-zinc-500">
+              <TableHead className="text-xs uppercase font-bold text-muted-foreground tracking-wider">
                 Indexing
               </TableHead>
-              <TableHead className="text-xs uppercase font-medium text-zinc-500">
+              <TableHead className="text-xs uppercase font-bold text-muted-foreground tracking-wider">
                 Last Updated
               </TableHead>
-              <TableHead className="text-xs uppercase font-medium text-zinc-500">
+              <TableHead className="text-xs uppercase font-bold text-muted-foreground tracking-wider">
                 Actions
               </TableHead>
             </TableRow>
@@ -169,21 +169,21 @@ const KnowledgeTable = ({
           <TableBody>
             {isLoading ? (
               Array.from({ length: 5 }).map((_, i) => (
-                <TableRow key={i} className="border-white/5">
-                  <TableCell className="hover:bg-white/5">
-                    <Skeleton className="h-5 w-32 bg-white/5" />
+                <TableRow key={i} className="border-border">
+                  <TableCell>
+                    <Skeleton className="h-5 w-32 bg-muted" />
                   </TableCell>
                   <TableCell>
-                    <Skeleton className="h-5 w-32 bg-white/5" />
+                    <Skeleton className="h-5 w-32 bg-muted" />
                   </TableCell>
                   <TableCell>
-                    <Skeleton className="h-5 w-32 bg-white/5" />
+                    <Skeleton className="h-5 w-32 bg-muted" />
                   </TableCell>
                   <TableCell>
-                    <Skeleton className="h-5 w-32 bg-white/5" />
+                    <Skeleton className="h-5 w-32 bg-muted" />
                   </TableCell>
                   <TableCell>
-                    <Skeleton className="h-5 w-32 bg-white/5" />
+                    <Skeleton className="h-5 w-32 bg-muted" />
                   </TableCell>
                 </TableRow>
               ))
@@ -191,41 +191,41 @@ const KnowledgeTable = ({
               sources.map((source, index) => (
                 <TableRow
                   key={index}
-                  className="border-white/5 hover:bg-white/2 cursor-pointer group transition-colors"
+                  className="border-border hover:bg-muted/50 cursor-pointer group transition-colors"
                   onClick={() => onSourceClick(source)}
                 >
-                  <TableCell className="font-medium text-zinc-200 group-hover:text-white">
+                  <TableCell className="font-bold text-foreground group-hover:text-primary transition-colors">
                     <div className="flex items-center gap-3">
                       {getTypeIcon(source.type as SourceType)}
                       <div className="flex flex-col">
                         <span>{source.name}</span>
                         {source.source_url && (
-                          <span className="text-xs text-zinc-500 font-normal">
+                          <span className="text-xs text-muted-foreground font-medium">
                             {source.source_url}
                           </span>
                         )}
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="capitalize text-zinc-400">
+                  <TableCell className="capitalize text-muted-foreground font-medium">
                     {source.type}
                   </TableCell>
-                  <TableCell className="capitalize text-zinc-400">
+                  <TableCell className="capitalize">
                     <div className="flex flex-col items-start gap-1">
                       {getExtractionBadge(source)}
                       {source.extraction_status === "ready" && (
-                        <span className="text-[11px] text-zinc-500 normal-case">
+                        <span className="text-[11px] text-muted-foreground font-bold">
                           {source.chunk_count || 0} chunks
                         </span>
                       )}
                       {source.extraction_status === "failed" && (
-                        <span className="text-[11px] text-red-400/80 normal-case">
+                        <span className="text-[11px] text-destructive font-bold">
                           Not used by chatbot
                         </span>
                       )}
                     </div>
                   </TableCell>
-                  <TableCell className="capitalize text-zinc-400">
+                  <TableCell className="text-muted-foreground font-medium">
                     {source.last_updated &&
                       new Date(source.last_updated).toLocaleDateString()}
                   </TableCell>
@@ -233,7 +233,7 @@ const KnowledgeTable = ({
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="h-8 text-zinc-400 hover:text-white hover:bg-white/2"
+                      className="h-8 text-muted-foreground hover:text-foreground hover:bg-muted"
                     >
                       View
                     </Button>
@@ -244,7 +244,7 @@ const KnowledgeTable = ({
               <TableRow>
                 <TableCell
                   colSpan={5}
-                  className="h-32 text-center text-zinc-500"
+                  className="h-32 text-center text-muted-foreground font-medium"
                 >
                   No knowledge sources added yet.
                 </TableCell>

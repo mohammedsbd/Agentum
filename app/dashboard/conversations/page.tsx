@@ -137,20 +137,20 @@ const ConversationPage = () => {
   const selectedConv = conversations?.find((c) => c.id === selectedId);
 
   return (
-    <div className="flex h-[calc(100vh-64px)] overflow-hidden bg-black animate-in fade-in duration-500">
-      <div className="w-87.5 md:w-100 flex flex-col border-r border-white/5 bg-[#050509]">
-        <div className="p-4 border-b border-white/5 space-y-4">
+    <div className="flex h-[calc(100vh-64px)] overflow-hidden bg-background animate-in fade-in duration-500">
+      <div className="w-87.5 md:w-100 flex flex-col border-r border-border bg-card">
+        <div className="p-6 border-b border-border space-y-6">
           <div className="flex items-center justify-between">
-            <h1 className="font-semibold text-white">Inbox</h1>
-            <div className="text-xs text-zinc-500">
-              {filteredConversations.length} conversations
+            <h1 className="text-xl font-bold text-foreground">Inbox</h1>
+            <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest bg-muted px-2 py-0.5 rounded-full">
+              {filteredConversations.length} Active
             </div>
           </div>
-          <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-zinc-500" />
+          <div className="relative group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
             <Input
-              placeholder="Search..."
-              className="pl-9 bg-[#0A0A0E] border-white/10 text-sm focus-visible:ring-indigo-500/50"
+              placeholder="Search conversations..."
+              className="pl-10 h-11 bg-muted/20 border-border text-sm font-medium focus-visible:ring-primary/20 rounded-xl"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -160,12 +160,13 @@ const ConversationPage = () => {
         <ScrollArea className="flex-1">
           <div className="flex flex-col">
             {isLoadingList ? (
-              <div className="flex items-center justify-center py-10">
-                <Loader2 className="w-6 h-6 animate-spin text-zinc-500" />
+              <div className="flex items-center justify-center py-20">
+                <Loader2 className="w-8 h-8 animate-spin text-primary" />
               </div>
             ) : filteredConversations.length === 0 ? (
-              <div className="text-center py-10 text-zinc-500 text-sm">
-                No conversations found
+              <div className="text-center py-20 px-6">
+                <MessageSquare className="w-12 h-12 text-muted/30 mx-auto mb-4" />
+                <p className="text-muted-foreground text-sm font-medium">No conversations found</p>
               </div>
             ) : (
               filteredConversations?.map((conversation) => (
@@ -173,36 +174,41 @@ const ConversationPage = () => {
                   key={conversation.id}
                   onClick={() => setSelectedId(conversation.id)}
                   className={cn(
-                    "flex flex-col items-start gap-2 p-4 text-left transition-colors border-b border-white/5 hover:bg-white/2",
+                    "flex flex-col items-start gap-2 p-5 text-left transition-all border-b border-border group relative",
                     selectedId === conversation.id
-                      ? "bg-white/4 border-l-2 border-l-indigo-500 border-b-transparent"
-                      : "border-l-2 border-l-transparent"
+                      ? "bg-primary/5 border-l-4 border-l-primary"
+                      : "hover:bg-muted/50 border-l-4 border-l-transparent"
                   )}
                 >
-                  <div className="flex w-full flex-col gap-1">
+                  <div className="flex w-full flex-col gap-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2 min-w-0">
-                        {conversation.channel === "voice" ? (
-                          <Mic className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                        ) : (
-                          <MessageSquare className="w-3.5 h-3.5 text-zinc-500 shrink-0" />
-                        )}
+                        <div className={cn(
+                          "w-8 h-8 rounded-full flex items-center justify-center border",
+                          selectedId === conversation.id ? "bg-primary border-primary" : "bg-muted border-border"
+                        )}>
+                          {conversation.channel === "voice" ? (
+                            <Mic className={cn("w-4 h-4", selectedId === conversation.id ? "text-primary-foreground" : "text-primary")} />
+                          ) : (
+                            <MessageSquare className={cn("w-4 h-4", selectedId === conversation.id ? "text-primary-foreground" : "text-muted-foreground")} />
+                          )}
+                        </div>
                         <span
                           className={cn(
-                            "font-medium text-sm truncate max-w-45",
+                            "font-bold text-sm truncate max-w-[140px]",
                             selectedId === conversation.id
-                              ? "text-white"
-                              : "text-zinc-300"
+                              ? "text-foreground"
+                              : "text-foreground/80"
                           )}
                         >
                           {conversation.user}
                         </span>
                       </div>
-                      <span className="text-[10px] text-zinc-500 shrink-0">
+                      <span className="text-[10px] font-bold text-muted-foreground uppercase">
                         {conversation.time}
                       </span>
                     </div>
-                    <span className="text-xs text-zinc-500 line-clamp-1 w-full">
+                    <span className="text-xs text-muted-foreground font-medium line-clamp-1 w-full pl-10">
                       {conversation.lastMessage}
                     </span>
                   </div>
@@ -213,89 +219,98 @@ const ConversationPage = () => {
         </ScrollArea>
       </div>
 
-      <div className="flex-1 flex flex-col min-w-0 bg-[#0a0a0e]">
+      <div className="flex-1 flex flex-col min-w-0 bg-background relative">
         {selectedConv ? (
           <>
-            <div className="h-16 border-b border-white/5 flex items-center justify-between px-6 bg-[#0E0E12]">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center border border-white/5">
-                  <User className="w-4 h-4 text-zinc-400" />
+            <div className="h-20 border-b border-border flex items-center justify-between px-8 bg-card shadow-sm z-10">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20">
+                  <User className="w-5 h-5 text-primary" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h2 className="font-medium text-white text-sm">
+                    <h2 className="font-bold text-foreground text-base">
                       {selectedConv.user}
                     </h2>
                     {selectedConv.visitor_ip && (
-                      <span className="text-xs text-zinc-600 bg-zinc-900 px-1.5 py-0.5 rounded">
+                      <span className="text-[10px] font-bold text-muted-foreground bg-muted px-2 py-0.5 rounded border">
                         {selectedConv.visitor_ip}
                       </span>
                     )}
                   </div>
+                  <p className="text-xs text-muted-foreground font-medium capitalize flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    Live via {selectedConv.channel || "chat"}
+                  </p>
                 </div>
               </div>
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 text-zinc-400"
+                className="h-10 w-10 text-muted-foreground hover:bg-muted"
               >
-                <MoreHorizontal className="w-4 h-4" />
+                <MoreHorizontal className="w-5 h-5" />
               </Button>
             </div>
 
-            <ScrollArea className="flex-1 p-6">
+            <ScrollArea className="flex-1 p-8">
               {isLoadingMessages ? (
-                <div className="flex items-center justify-center p-10">
-                  <Loader2 className="w-6 h-6 animate-spin text-zinc-500" />
+                <div className="flex items-center justify-center p-20">
+                  <Loader2 className="w-10 h-10 animate-spin text-primary" />
                 </div>
               ) : (
-                <div className="max-w-3xl mx-auto space-y-6">
+                <div className="max-w-4xl mx-auto space-y-8">
+                  <div className="flex items-center justify-center">
+                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest bg-muted px-3 py-1 rounded-full border">
+                      Conversation Started
+                    </span>
+                  </div>
                   {currentMessages.map((msg) => (
                     <div
                       key={msg.id}
                       className={cn(
-                        "flex w-full gap-3",
+                        "flex w-full gap-4",
                         msg.role === "user" ? "flex-row-reverse" : "flex-row"
                       )}
                     >
                       <div
                         className={cn(
-                          "w-8 h-8 rounded-full flex items-center justify-center shrink-0 border border-white/5",
-                          msg.role === "user" ? "bg-zinc-800" : "bg-indigo-600"
+                          "w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border shadow-sm transition-transform hover:scale-105",
+                          msg.role === "user" ? "bg-muted border-border" : "bg-primary border-primary"
                         )}
                       >
                         {msg.role === "user" ? (
-                          <User className="w-4 h-4 text-zinc-400" />
+                          <User className="w-5 h-5 text-muted-foreground" />
                         ) : (
-                          <div className="w-9 h-9 relative rounded-full flex items-center justify-center shrink-0 border border-white/5">
+                          <div className="w-full h-full relative rounded-xl overflow-hidden">
                             <Image
                               src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=64&h=64&q=80&fit=crop"
                               alt="Support Agent"
                               width={50}
                               height={50}
-                              className="w-full h-full rounded-full object-cover"
+                              className="w-full h-full object-cover"
                             />
-                            <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-[#0E0E12] rounded-full"></div>
+                            <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 border-2 border-primary rounded-full" />
                           </div>
                         )}
                       </div>
                       <div
                         className={cn(
-                          "flex flex-col gap-1 max-w-[70%]",
+                          "flex flex-col gap-1.5 max-w-[75%]",
                           msg.role === "user" ? "items-end" : "items-start"
                         )}
                       >
                         <div
                           className={cn(
-                            "p-3 rounded-lg text-sm leading-relaxed",
+                            "p-4 rounded-2xl text-sm leading-relaxed shadow-sm",
                             msg.role === "user"
-                              ? "bg-zinc-800 text-zinc-200"
-                              : "bg-[#050509] border border-white/10 text-zinc-300"
+                              ? "bg-primary text-primary-foreground rounded-tr-none"
+                              : "bg-card border border-border text-foreground rounded-tl-none"
                           )}
                         >
                           {msg.content}
                         </div>
-                        <span className="text-[10px] text-zinc-600 px-1">
+                        <span className="text-[10px] font-bold text-muted-foreground px-2 uppercase tracking-tighter">
                           {msg.created_at
                             ? new Date(msg.created_at).toLocaleTimeString([], {
                                 hour: "2-digit",
@@ -311,35 +326,55 @@ const ConversationPage = () => {
               )}
             </ScrollArea>
 
-            <div className="p-4 border-t border-white/5 bg-[#0e0e12]">
-              <div className="max-w-3xl mx-auto flex gap-2">
-                <Input
-                  value={replyContent}
-                  onChange={(e) => setReplyContent(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder="Type your reply..."
-                  className="bg-zinc-900/50 border-white/10 text-zinc-200 placeholder:text-zinc-600"
-                  disabled={isSending}
-                />
-                <Button
-                  onClick={handleSendReply}
-                  disabled={!replyContent.trim() || isSending}
-                  size="icon"
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white"
-                >
-                  {isSending ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <Send className="w-4 h-4" />
-                  )}
-                </Button>
+            <div className="p-6 border-t border-border bg-card">
+              <div className="max-w-4xl mx-auto">
+                <div className="flex gap-3 bg-muted/30 p-2 rounded-2xl border border-border focus-within:border-primary/30 transition-all shadow-inner">
+                  <Input
+                    value={replyContent}
+                    onChange={(e) => setReplyContent(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Type your reply..."
+                    className="bg-transparent border-0 text-foreground placeholder:text-muted-foreground/50 h-12 text-base focus-visible:ring-0 shadow-none font-medium flex-1"
+                    disabled={isSending}
+                  />
+                  <Button
+                    onClick={handleSendReply}
+                    disabled={!replyContent.trim() || isSending}
+                    className="h-12 w-12 rounded-xl shadow-lg shadow-primary/20"
+                    size="icon"
+                  >
+                    {isSending ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <Send className="w-5 h-5" />
+                    )}
+                  </Button>
+                </div>
+                <div className="flex items-center justify-between mt-3 px-2">
+                  <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">
+                    Press Enter to send
+                  </p>
+                  <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">
+                    Agent ID: #772
+                  </p>
+                </div>
               </div>
             </div>
           </>
         ) : (
-          <div className="flex-1 flex flex-col items-center justify-center text-zinc-500 gap-2">
-            <MessageSquare className="w-8 h-8 text-zinc-700" />
-            <p>Select a conversation to view details</p>
+          <div className="flex-1 flex flex-col items-center justify-center bg-muted/5 p-12 text-center animate-in fade-in duration-1000">
+            <div className="w-24 h-24 bg-card border border-border rounded-3xl flex items-center justify-center mb-8 shadow-xl transform hover:rotate-3 transition-transform">
+              <MessageSquare className="w-12 h-12 text-primary/40" />
+            </div>
+            <h3 className="text-2xl font-bold text-foreground mb-3">No conversation selected</h3>
+            <p className="text-muted-foreground font-medium max-w-sm mx-auto leading-relaxed">
+              Select a conversation from the sidebar to view the message history and respond to your customers.
+            </p>
+            <div className="mt-8 flex gap-2">
+               {[1, 2, 3].map(i => (
+                 <div key={i} className="w-2 h-2 rounded-full bg-primary/20 animate-bounce" style={{ animationDelay: `${i * 0.2}s` }} />
+               ))}
+            </div>
           </div>
         )}
       </div>
